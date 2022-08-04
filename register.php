@@ -1,3 +1,28 @@
+<?php
+// Include the connection file
+include 'connection.php';
+// Check the button Register and INSERT the data in table users from the webpage form
+if (isset($_POST['register'])) {
+    $fname=$_POST['fname'];
+    $lname=$_POST['lname'];
+    $email=$_POST['email'];
+    $password=$_POST['password'];
+    $phone=$_POST['phone'];
+    $company_name=$_POST['company_name'];
+    $company_site=$_POST['company_site'];
+    $company_description=$_POST['company_description'];
+
+    $sql="INSERT INTO users (fname, lname, email, password, phone, company_name, company_site, company_description)
+    values('$fname','$lname','$email','$password','$phone','$company_name','$company_site','$company_description')";
+
+    $result=mysqli_query($conn, $sql);
+    if (!$result) {
+        die(mysqli_error($conn));
+    }
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -25,7 +50,7 @@
                             <div class="section-heading">
                                 <h2 class="heading-title">Register</h2>
                             </div>
-                            <form>
+                            <form method="post">
                                 <div class="flex-container justified-horizontally">
                                     <div class="primary-container">
                                         <h4 class="form-title">About me</h4>
@@ -36,16 +61,16 @@
                                             <input type="text" name="lname" placeholder="Last Name*" />
                                         </div>
                                         <div class="form-field-wrapper">
-                                            <input type="text" name="email" placeholder=" Email*" />
+                                            <input type="text" name="email" placeholder="Email*" />
                                         </div>
                                         <div class="form-field-wrapper">
                                             <input type="text" name="password" placeholder="Password*" />
                                         </div>
                                         <div class="form-field-wrapper">
-                                            <input type="text" name="passwordrep" placeholder="Repeat Password*" />
+                                            <input type="text" name="password_rep" placeholder="Repeat Password*" />
                                         </div>
                                         <div class="form-field-wrapper">
-                                            <input type="text" name="phone_num" placeholder="Phone Number" />
+                                            <input type="text" name="phone" placeholder="Phone Number" />
                                         </div>
                                     </div>
                                     <div class="secondary-container">
@@ -61,7 +86,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <button class="button">
+                                <button type="submit" class="button" name="register">
                                     Register
                                 </button>
                             </form>
@@ -75,3 +100,4 @@
 </body>
 
 </html>
+
