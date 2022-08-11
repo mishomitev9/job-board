@@ -37,12 +37,7 @@ if (isset($_POST['reg_user'])) {
     $email_address = filter_var($email_address, FILTER_SANITIZE_EMAIL);
     if (filter_var($email_address, FILTER_VALIDATE_EMAIL)) {
         $email_pattern = '/@devrix.com/';
-    
-        if (preg_match($email_pattern, $email_address)) {
-            $is_admin = 1;
-        } else {
-            $is_admin = 0;
-        }
+        $is_admin = preg_match($email_pattern, $email_address) ? 1 : 0;
     } else {
         array_push($errors, "Email is not valid");
     }

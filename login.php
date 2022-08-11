@@ -2,8 +2,6 @@
 
      include_once('header.php'); // Include Header once
      
-     require_once('db-connect.php');
-     
 if (isset($_POST['login_user'])) {
     $errors = array();
     $first_name = '';
@@ -30,20 +28,13 @@ if (isset($_POST['login_user'])) {
                  //var_dump($row);
                  $first_name = $row[1];
             }
-    
-              //$result->free_result();
         }
     
-           //echo $first_name;
-    
-           //var_dump($results);
         if (mysqli_num_rows($results)) {
             $_SESSION['email'] = $email_address;
-            var_dump($_SESSION['first_name'] = $first_name);
             $_SESSION['success'] = "Logged in successfully $first_name";
             echo "$first_name logged in .";
             $_SESSION['login'] = 1;
-            var_dump($_SESSION['login']);
             header('location: index.php');
         } else {
             array_push($errors, "Wrong username or password. Please try again.");

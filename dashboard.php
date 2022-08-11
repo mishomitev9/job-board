@@ -1,6 +1,4 @@
-<?php require_once('db-connect.php'); ?>
-
-     <?php include_once('header.php'); ?>
+<?php include_once('header.php'); ?>
 
         <main class="site-main">
             <section class="section-fullwidth section-jobs-dashboard">

@@ -1,5 +1,4 @@
-<?php require_once('db-connect.php'); ?>
-     <?php include_once('header.php'); // Include Header once ?>
+<?php include_once('header.php'); // Include Header once ?>
 
         <main class="site-main">
             <section class="section-fullwidth">

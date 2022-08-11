@@ -1,6 +1,4 @@
-    <?php require_once('db-connect.php'); ?>
-
-     <?php include_once('header.php'); // Include Header once ?>
+<?php include_once('header.php'); // Include Header once ?>
 
         <main class="site-main">
             <section class="section-fullwidth section-jobs-preview">
@@ -41,6 +39,8 @@
                         </div>
                     </div>
                     <ul class="jobs-listing">
+
+
                         <li class="job-card">
                             <div class="job-primary">
                                 <h2 class="job-title"><a href="#">Front End Developer</a></h2>
@@ -147,6 +147,3 @@
         </main>
 
         <?php include_once('footer.php'); ?>
-    </div>
-</body>
-</html>
