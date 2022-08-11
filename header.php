@@ -18,18 +18,18 @@
 <header class="site-header">
             <div class="row site-header-inner">
                 <div class="site-header-branding">
-                    <h1 class="site-title"><a href="/job-board/index.php">Job Offers</a></h1>
+                    <h1 class="site-title"><a href="<?php echo SITE_URL ?>index.php">Job Offers</a></h1>
                 </div>
                 <nav class="site-header-navigation">
                     <ul class="menu">
                         <li class="menu-item">
-                            <a href="/job-board/index.php">Home</a>                 
+                            <a href="<?php echo SITE_URL ?>index.php">Home</a>                 
                         </li>
                         <li class="menu-item">
-                            <a href="/job-board/register.php">Register</a>
+                            <a href="<?php echo SITE_URL ?>register.php">Register</a>
                         </li>
                         <li class="menu-item">
-                            <a href="/job-board/login.php">Login</a>                    
+                            <a href="<?php echo SITE_URL ?>login.php">Login</a>                    
                         </li>
                     </ul>
                 </nav>
