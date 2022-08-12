@@ -18,19 +18,19 @@ if (isset($_POST['reg_user'])) {
     
     // Validation
     if (empty($first_name)) {
-        array_push($errors, "First name is required");
+        $errors[] = "First name is required";
     }
     if (empty($last_name)) {
-        array_push($errors, "Last name is required");
+        $errors[] = "Last name is required";
     }
     if (empty($email_address)) {
-        array_push($errors, "Email is required");
+        $errors[] = "Email is required";
     }
     if (empty($password)) {
-        array_push($errors, "Password is required");
+        $errors[] = "Password is required";
     }
     if ($password !== $password_rep) {
-        array_push($errors, "Passwords do not match");
+        $errors[] = "Passwords do not match";
     }
     
     // Validate if email is admin or not
@@ -39,7 +39,7 @@ if (isset($_POST['reg_user'])) {
         $email_pattern = '/@devrix.com/';
         $is_admin = preg_match($email_pattern, $email_address) ? 1 : 0;
     } else {
-        array_push($errors, "Email is not valid");
+        $errors [] = "Email is not valid";
     }
     
     // Validate password with 8 characters, at least one special character, at least one capital, and at least one small letter.
@@ -48,7 +48,7 @@ if (isset($_POST['reg_user'])) {
       $password_special_chars = preg_match('@[^\w]@', $password);
       
     if (!$password_uppercase || !$password_lowercase || !$password_special_chars || strlen($password) < 8) {
-        array_push($errors, 'Password must be at least 8 characters, at least one special character, at least one capital letter, and at least one small letter.');
+        $errors [] = 'Password must be at least 8 characters, at least one special character, at least one capital letter, and at least one small letter.';
     }
     
     // Validate phone number
@@ -61,13 +61,13 @@ if (isset($_POST['reg_user'])) {
         $phone_number = ltrim($phone_number, '0');
         $phone_number = "+359" . $phone_number;
     } else {
-        array_push($errors, "Phone number is not valid");
+        $errors [] = "Phone number is not valid";
     }
     
     // Validation for empty URL
     if (!empty($company_site)) {
         if (!filter_var($company_site, FILTER_VALIDATE_URL)) {
-            array_push($errors, "Company site URL is not valid");
+            $errors[] = "Company site URL is not valid";
         }
     }
     
@@ -79,7 +79,7 @@ if (isset($_POST['reg_user'])) {
     
     if ($checked_email_address) {
         if ($checked_email_address["email"] === $email_address) {
-            array_push($errors, "Email address already exists");
+            $errors[] = "Email address already exists";
         }
     }
     
@@ -104,33 +104,34 @@ if (isset($_POST['reg_user'])) {
             
                 move_uploaded_file($logo_tmp_name, $logo_upload_path);
             } else {
-                array_push($errors, "You can not upload file from this type");
+                $errors[] = "You can not upload file from this type";
             }
         }
     } else {
-        array_push($errors, "Can not upload logo without Company name");
+        $errors[] = "You need to fill Company name to upload logo";
     }
     
     // Resgister user without errors
     if (count($errors) == 0) {
-        $password_encryption = md5($password); // Encryption with md5
+        $password_encryption = password_hash($password, PASSWORD_DEFAULT); // Encryption the password with password_hash
         $query = "INSERT INTO users (first_name, last_name, email, user_password, phone, is_admin, company_name, company_site, company_description, company_image) 
 		  VALUES ('$first_name', '$last_name', '$email_address', '$password_encryption', '$phone_number', '$is_admin', '$company_name', '$company_site', '$company_description', '$company_image')";
     
         mysqli_query($db_connect, $query);
-        $_SESSION["email_address"]  = $email_address;
-        $_SESSION["sucesss"] = "Registration was successful";
-        $_SESSION['first_name'] = $first_name;
-        $_SESSION['success'] = "Logged in successfully $first_name";
-        $_SESSION['login'] = 1;
+
+        // Log the user and make a session for the current user
+        $user_id = mysqli_insert_id($db_connect);
        
-      
-        header('location: index.php');
+        echo "User id var dump: ";
+        var_dump($user_id);
+
+        $_SESSION['$user_id'] = $user_id;
+        echo "Sesssion user id var dump;  ";
+        var_dump($_SESSION['$user_id']);
     }
 }
 
 ?>
-
         <div class="flex-container centered-vertically centered-horizontally">
                         <div class="form-box box-shadow">
                             <div class="section-heading">

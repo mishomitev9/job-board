@@ -1,7 +1,7 @@
 <?php
 
      include_once('header.php'); // Include Header once
-     
+    // var_dump($_SESSION['$user_id']);
 if (isset($_POST['login_user'])) {
     $errors = array();
     $first_name = '';
@@ -9,41 +9,44 @@ if (isset($_POST['login_user'])) {
     $user_password = mysqli_real_escape_string($db_connect, $_POST['user_password']);
     
     if (empty($email_address)) {
-          array_push($errors, 'Email address is required');
+         $errors[] = 'Email address is required';
     }
+
     if (empty($user_password)) {
-        array_push($errors, 'Password is required');
+        $errors[] = 'Password is required';
     }
+
     if (count($errors) == 0) {
-        $user_password = md5($user_password);
-    
-        $query = "SELECT * FROM users WHERE email = '$email_address' AND user_password = '$user_password'";
-    
+        $query = "SELECT user_password FROM users WHERE email = '$email_address'";
     
         $results = mysqli_query($db_connect, $query);
-         
+        
         $matches = mysqli_num_rows($results);
         if (0 !== $matches) {
-            while ($row = $results->fetch_row()) {
-                 //var_dump($row);
-                 $first_name = $row[1];
-            }
+            $row = $results->fetch_row();
+                $hashed_password = $row[0];
         }
-    
-        if (mysqli_num_rows($results)) {
-            $_SESSION['email'] = $email_address;
-            $_SESSION['success'] = "Logged in successfully $first_name";
-            echo "$first_name logged in .";
-            $_SESSION['login'] = 1;
+            
+        if (password_verify($_POST['user_password'], $hashed_password)) {
             header('location: index.php');
         } else {
-            array_push($errors, "Wrong username or password. Please try again.");
+            $errors[] = "Wrong username or password. Please try again.";
+        }
+
+          $query_id = "SELECT id FROM users WHERE email = '$email_address'";
+    
+          $results_id = mysqli_query($db_connect, $query_id);
+         
+          $matches_id = mysqli_num_rows($results_id);
+        if (0 !== $matches_id) {
+            $row_id = $results_id->fetch_row();
+            $user_id = $row_id[0];
+            $_SESSION['$user_id'] = $user_id;
+            header('location: index.php');
         }
     }
 }
-    
-?>
-    
+
 ?>
         <main class="site-main">
             <section class="section-fullwidth section-login">
@@ -56,12 +59,12 @@ if (isset($_POST['login_user'])) {
                             </div>
                             <form action="login.php" method="post">
                                 <div class="form-field-wrapper">
-                                <input type="text" name="email" id="email_address" placeholder="Email"/>
+                                <input type="text" name="email_address" id="email_address" placeholder="Email"/>
                                 </div>
                                 <div class="form-field-wrapper">
                                 <input type="password" name="user_password" id="password" placeholder="Password"/>
                                 </div>
-                                <button type="submit" class="button">
+                                <button type="submit" name="login_user" class="button">
                                     Login
                                 </button>
                             </form>
@@ -71,4 +74,4 @@ if (isset($_POST['login_user'])) {
                 </div>
             </section>
         </main>
-        <?php include_once('footer.php');
+        <?php include_once('footer.php'); ?>

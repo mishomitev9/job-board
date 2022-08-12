@@ -25,12 +25,16 @@
                         <li class="menu-item">
                             <a href="<?php echo SITE_URL ?>index.php">Home</a>                 
                         </li>
+<?php // Here i have to check if the user is logged.
+// If yes we need the see Logout and update acc ?>
                         <li class="menu-item">
                             <a href="<?php echo SITE_URL ?>register.php">Register</a>
                         </li>
                         <li class="menu-item">
                             <a href="<?php echo SITE_URL ?>login.php">Login</a>                    
                         </li>
+
+
                     </ul>
                 </nav>
                 <button class="menu-toggle">
