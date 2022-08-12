@@ -2,9 +2,9 @@
 
      include_once('header.php'); // Include Header once
     // var_dump($_SESSION['$user_id']);
+    $hashed_password = '';
 if (isset($_POST['login_user'])) {
     $errors = array();
-    $first_name = '';
     $email_address = mysqli_real_escape_string($db_connect, $_POST['email_address']);
     $user_password = mysqli_real_escape_string($db_connect, $_POST['user_password']);
     

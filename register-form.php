@@ -52,12 +52,12 @@ if (isset($_POST['reg_user'])) {
     }
     
     // Validate phone number
-      $phone_pattern_1 = '/359([0-9]*)/';
-      $phone_pattern_2 = '/^[0]([0-9]*)/';
+      $phone_plus = '/359([0-9]*)/';
+      $phone_zero = '/^[0]([0-9]*)/';
       $phone_number = preg_replace('/[^0-9]/', '', $phone_number);
-    if (preg_match($phone_pattern_1, $phone_number) && strlen($phone_number) == 12) {
+    if (preg_match($phone_plus, $phone_number) && strlen($phone_number) == 12) {
         $phone_number = "+" . $phone_number;
-    } elseif (preg_match($phone_pattern_2, $phone_number) && strlen($phone_number) == 10) {
+    } elseif (preg_match($phone_zero, $phone_number) && strlen($phone_number) == 10) {
         $phone_number = ltrim($phone_number, '0');
         $phone_number = "+359" . $phone_number;
     } else {
@@ -121,13 +121,7 @@ if (isset($_POST['reg_user'])) {
 
         // Log the user and make a session for the current user
         $user_id = mysqli_insert_id($db_connect);
-       
-        echo "User id var dump: ";
-        var_dump($user_id);
-
         $_SESSION['$user_id'] = $user_id;
-        echo "Sesssion user id var dump;  ";
-        var_dump($_SESSION['$user_id']);
     }
 }
 
