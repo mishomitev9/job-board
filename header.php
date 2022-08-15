@@ -1,4 +1,21 @@
 <?php require_once('db-connect.php'); ?>
+<?php
+$_SESSION['logged_in'] = false;
+
+if (!empty($_SESSION['$user_id'])) {
+    $_SESSION['logged_in'] = true;
+    $_SESSION['is_company'] = false;
+    $result_company = mysqli_query($db_connect, "SELECT company_name FROM users WHERE id= " . $_SESSION['$user_id'] . " ");
+    $matches_company = mysqli_num_rows($result_company);
+    if (0 !== $matches_company) {
+        $rows = $result_company->fetch_assoc();
+        if ($rows['company_name'] != "") {
+            $_SESSION['is_company'] = true;
+        }
+    }
+   // var_dump($_SESSION['is_company']);
+}
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -25,17 +42,32 @@
                         <li class="menu-item">
                             <a href="<?php echo SITE_URL ?>index.php">Home</a>                 
                         </li>
-<?php // Here i have to check if the user is logged.
-// If yes we need the see Logout and update acc ?>
                         <li class="menu-item">
-                            <a href="<?php echo SITE_URL ?>register.php">Register</a>
-                        </li>
-                        <li class="menu-item">
-                            <a href="<?php echo SITE_URL ?>login.php">Login</a>                    
-                        </li>
-
-
-                    </ul>
+                        <?php
+                        if (!$_SESSION['logged_in']) {
+                            ?>
+                    <a href="<?php echo SITE_URL ?>register.php">Register</a>
+                        <?php } else {
+                            if ($_SESSION['is_company'] == true) {
+                                ?>
+                    <a href="<?php echo SITE_URL ?>dashboard.php">Dashboard</a>
+                    <a href="<?php echo SITE_URL ?>actions-job.php">Create Job</a>
+                            <?php }
+                            ?>
+                    <a href="<?php echo SITE_URL ?>profile.php">My Profile</a>
+                        <?php }
+                        ?>
+            </li>
+                <li class="menu-item">
+                <?php
+                if (!$_SESSION['logged_in']) {
+                    ?>
+                    <a href="<?php echo SITE_URL ?>login.php">Log In</a>
+                <?php } else { ?>
+                    <a href="<?php echo SITE_URL ?>logout.php">Sign Out</a>
+                <?php } ?>              
+                </li>
+            </ul>
                 </nav>
                 <button class="menu-toggle">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path fill="none" d="M0 0h24v24H0z"/><path fill="currentColor" class='menu-toggle-bars' d="M3 4h18v2H3V4zm0 7h18v2H3v-2zm0 7h18v2H3v-2z"/></svg>
