@@ -1,35 +1,31 @@
  <?php include_once('header.php'); // Include Header once
+ 
  if (isset($_POST['new_job'])) {
-   // initializing variables
-     $title = mysqli_real_escape_string($db_connect, $_POST['title']);
-     echo "title".PHP_EOL;
-     var_dump($title);
-     $location = mysqli_real_escape_string($db_connect, $_POST['location']);
-     echo "location".PHP_EOL;
-     var_dump($location);
-     $salary = mysqli_real_escape_string($db_connect, $_POST['salary']);
-     echo "salary".PHP_EOL;
-     var_dump($salary);
-     $description = mysqli_real_escape_string($db_connect, $_POST['description']);
-     echo "description".PHP_EOL;
-     var_dump($description);
-     $errors = array();
+     if ($_SESSION['is_company'] = true) { // Check if the log is company
+    // initializing variables
+         var_dump($_SESSION['is_company']);
+         $title = mysqli_real_escape_string($db_connect, $_POST['title']);
+         $location = mysqli_real_escape_string($db_connect, $_POST['location']);
+         $salary = mysqli_real_escape_string($db_connect, $_POST['salary']);
+         $description = mysqli_real_escape_string($db_connect, $_POST['description']);
+         $errors = array();
     
-    // Validation
-     if (empty($title)) {
-         $errors[] = "Title is required";
-     }
-     if (empty($description)) {
-         $errors[] = "Job description is required";
-     }
-     echo "errors".PHP_EOL;
-     var_dump($errors);
-     if (count($errors) == 0) {
-         $user_id = $_SESSION['$user_id'];
-         $job_query = "INSERT INTO jobs (user_id, title, salary, location, description) 
+     // Validation
+         if (empty($title)) {
+               $errors[] = "Title is required";
+         }
+         if (empty($description)) {
+              $errors[] = "Job description is required";
+         }
+         echo "errors".PHP_EOL;
+         var_dump($errors);
+         if (count($errors) == 0) {
+             $user_id = $_SESSION['$user_id'];
+             $job_query = "INSERT INTO jobs (user_id, title, salary, location, description) 
 		  VALUES ('$user_id', '$title', '$salary', '$location', '$description')";
     
-         mysqli_query($db_connect, $job_query);
+             mysqli_query($db_connect, $job_query);
+         }
      }
  }
     ?>
