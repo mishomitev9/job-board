@@ -1,4 +1,38 @@
- <?php include_once('header.php'); // Include Header once ?>
+ <?php include_once('header.php'); // Include Header once
+ if (isset($_POST['new_job'])) {
+   // initializing variables
+     $title = mysqli_real_escape_string($db_connect, $_POST['title']);
+     echo "title".PHP_EOL;
+     var_dump($title);
+     $location = mysqli_real_escape_string($db_connect, $_POST['location']);
+     echo "location".PHP_EOL;
+     var_dump($location);
+     $salary = mysqli_real_escape_string($db_connect, $_POST['salary']);
+     echo "salary".PHP_EOL;
+     var_dump($salary);
+     $description = mysqli_real_escape_string($db_connect, $_POST['description']);
+     echo "description".PHP_EOL;
+     var_dump($description);
+     $errors = array();
+    
+    // Validation
+     if (empty($title)) {
+         $errors[] = "Title is required";
+     }
+     if (empty($description)) {
+         $errors[] = "Job description is required";
+     }
+     echo "errors".PHP_EOL;
+     var_dump($errors);
+     if (count($errors) == 0) {
+         $user_id = $_SESSION['$user_id'];
+         $job_query = "INSERT INTO jobs (user_id, title, salary, location, description) 
+		  VALUES ('$user_id', '$title', '$salary', '$location', '$description')";
+    
+         mysqli_query($db_connect, $job_query);
+     }
+ }
+    ?>
 
         <main class="site-main">
             <section class="section-fullwidth">
@@ -8,25 +42,25 @@
                             <div class="section-heading">
                                 <h2 class="heading-title">New job</h2>
                             </div>
-                            <form>
+                            <form method="post" action="" enctype="multipart/form-data">
                                 <div class="flex-container flex-wrap">
                                     <div class="form-field-wrapper width-large">
-                                        <input type="text" placeholder="Job title*"/>
+                                        <input type="text" name="title" placeholder="Job title*" required/>
                                     </div>
                                     <div class="form-field-wrapper width-large">
-                                        <input type="text" placeholder="Location"/>
+                                        <input type="text" name="location" placeholder="Location"/>
                                     </div>
                                     <div class="form-field-wrapper width-large">
-                                        <input type="text" placeholder="Salary"/>
+                                        <input type="number" name="salary" placeholder="Salary"/>
                                     </div>
                                     <div class="form-field-wrapper width-large">
-                                        <textarea placeholder="Description*"></textarea>
+                                        <textarea name="description" placeholder="Description*" required></textarea>
                                     </div>  
-                                </div>
-                                <button type="submit" class="button">
+                                <button type="submit" name="new_job" class="button">
                                     Create
                                 </button>
                             </form>
+                            <?php require_once('errors.php'); // Include the errors ?>
                         </div>
                     </div>
                 </div>

@@ -12,7 +12,6 @@ if (isset($_POST['reg_user'])) {
     $company_name = mysqli_real_escape_string($db_connect, $_POST['company_name']);
     $company_site = mysqli_real_escape_string($db_connect, $_POST['company_site']);
     $company_description = mysqli_real_escape_string($db_connect, $_POST['company_description']);
-    //$company_image = mysqli_real_escape_string($connection , $_FILES['company_image']);
     
     $errors = array();
     
@@ -138,7 +137,8 @@ if (isset($_POST['reg_user'])) {
                                     <div class="primary-container">
                                         <h4 class="form-title">About me</h4>
                                         <div class="form-field-wrapper">
-                                            <input type="text" name="first_name" placeholder="First Name*" required/>
+                                            
+                                            <input type="text" name="first_name" placeholder="First Name*"  required/>
                                         </div>
                                         <div class="form-field-wrapper">
                                             <input type="text" name="last_name" placeholder="Last Name*" required/>
