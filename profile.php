@@ -13,7 +13,12 @@
                                     <div class="primary-container">
                                         <h4 class="form-title">About me</h4>
                                         <div class="form-field-wrapper">
-                                            <input type="text" placeholder="First Name*"/>
+                                            <input type="text" placeholder="First Name*"
+                                            <?php /* var_dump($_SESSION['first_name']);
+                                            if (!empty($_SESSION['first_name'])) {
+                                                echo 'value = "'. $_SESSION['first_name'].'" ';
+                                            } */
+                                            ?>" />
                                         </div>
                                         <div class="form-field-wrapper">
                                             <input type="text" placeholder="Last Name*"/>

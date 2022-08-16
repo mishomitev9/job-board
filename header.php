@@ -1,5 +1,4 @@
-<?php require_once('db-connect.php'); ?>
-<?php
+<?php require_once('db-connect.php');
 $_SESSION['logged_in'] = false;
 
 if (!empty($_SESSION['$user_id'])) {
@@ -13,7 +12,6 @@ if (!empty($_SESSION['$user_id'])) {
             $_SESSION['is_company'] = true;
         }
     }
-   // var_dump($_SESSION['is_company']);
 }
 ?>
 

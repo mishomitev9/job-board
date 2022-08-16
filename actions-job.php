@@ -1,30 +1,30 @@
  <?php include_once('header.php'); // Include Header once
  
  if (isset($_POST['new_job'])) {
-     if ($_SESSION['is_company'] = true) { // Check if the log is company
-    // initializing variables
-         var_dump($_SESSION['is_company']);
-         $title = mysqli_real_escape_string($db_connect, $_POST['title']);
-         $location = mysqli_real_escape_string($db_connect, $_POST['location']);
-         $salary = mysqli_real_escape_string($db_connect, $_POST['salary']);
-         $description = mysqli_real_escape_string($db_connect, $_POST['description']);
-         $errors = array();
+     if (isset($_SESSION['is_company'])) { // Check if the key exist in $_SESSION
+         if ($_SESSION['is_company'] = true) { // Check if the log is company
+          // initializing variables
+               $title = mysqli_real_escape_string($db_connect, $_POST['title']);
+               $location = mysqli_real_escape_string($db_connect, $_POST['location']);
+               $salary = mysqli_real_escape_string($db_connect, $_POST['salary']);
+               $description = mysqli_real_escape_string($db_connect, $_POST['description']);
+               $errors = array();
     
-     // Validation
-         if (empty($title)) {
-               $errors[] = "Title is required";
-         }
-         if (empty($description)) {
-              $errors[] = "Job description is required";
-         }
-         echo "errors".PHP_EOL;
-         var_dump($errors);
-         if (count($errors) == 0) {
-             $user_id = $_SESSION['$user_id'];
-             $job_query = "INSERT INTO jobs (user_id, title, salary, location, description) 
+           // Validation
+             if (empty($title)) {
+                 $errors[] = "Title is required";
+             }
+             if (empty($description)) {
+                 $errors[] = "Job description is required";
+             }
+            
+             if (count($errors) == 0) {
+                 $user_id = $_SESSION['$user_id'];
+                 $job_query = "INSERT INTO jobs (user_id, title, salary, location, description) 
 		  VALUES ('$user_id', '$title', '$salary', '$location', '$description')";
     
-             mysqli_query($db_connect, $job_query);
+                 mysqli_query($db_connect, $job_query);
+             }
          }
      }
  }
