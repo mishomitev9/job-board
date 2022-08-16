@@ -12,6 +12,13 @@ if (isset($_POST['reg_user'])) {
     $company_name = mysqli_real_escape_string($db_connect, $_POST['company_name']);
     $company_site = mysqli_real_escape_string($db_connect, $_POST['company_site']);
     $company_description = mysqli_real_escape_string($db_connect, $_POST['company_description']);
+    $_SESSION['first_name'] = $_POST['first_name'];
+    $_SESSION['last_name'] = $_POST['last_name'];
+    $_SESSION['email_address'] = $_POST['email_address'];
+    $_SESSION['phone_number'] = $_POST['phone_number'];
+    $_SESSION['company_name'] = $_POST['company_name'];
+    $_SESSION['company_site'] = $_POST['company_site'];
+    $_SESSION['company_description'] = $_POST['company_description'];
     
     $errors = array();
     
@@ -75,7 +82,6 @@ if (isset($_POST['reg_user'])) {
     $email_results = mysqli_query($db_connect, $email_check_query);
     $checked_email_address = mysqli_fetch_assoc($email_results);
     
-    
     if ($checked_email_address) {
         if ($checked_email_address["email"] === $email_address) {
             $errors[] = "Email address already exists";
@@ -131,20 +137,37 @@ if (isset($_POST['reg_user'])) {
                                 <h2 class="heading-title">Register</h2>
                             </div>
                             
-                            <div><?php require_once('success.php'); //include 'errors.php'; ?></div>
+                            <div><?php require_once('success.php'); ?></div>
+                            <?php require_once('errors.php'); //include 'errors.php'; ?>
+
                             <form method="post" action="register.php" enctype="multipart/form-data">
                                 <div class="flex-container justified-horizontally">
                                     <div class="primary-container">
                                         <h4 class="form-title">About me</h4>
                                         <div class="form-field-wrapper">
                                             
-                                            <input type="text" name="first_name" placeholder="First Name*"  required/>
+                                            <input type="text" name="first_name" placeholder="First Name*"
+                                            <?php if (!empty($_SESSION['first_name'])) {
+                                                echo 'value = "'. $_SESSION['first_name'].'" ';
+                                            }
+                                            ?>" required/>
+
                                         </div>
                                         <div class="form-field-wrapper">
-                                            <input type="text" name="last_name" placeholder="Last Name*" required/>
+                                            <input type="text" name="last_name" placeholder="Last Name*"
+                                            <?php if (!empty($_SESSION['last_name'])) {
+                                                echo 'value = "'. $_SESSION['last_name'].'" ';
+                                            }
+                                            ?>" required/>
+
                                         </div>
                                         <div class="form-field-wrapper">
-                                            <input type="text" name="email_address" placeholder="Email*" required/>
+                                            <input type="text" name="email_address" placeholder="Email*"
+                                            <?php if (!empty($_SESSION['email_address'])) {
+                                                echo 'value = "'. $_SESSION['email_address'].'" ';
+                                            }
+                                            ?>" required/>
+
                                         </div>
                                         <div class="form-field-wrapper">
                                             <input type="password" name="password" placeholder="Password*" required/>
@@ -153,16 +176,30 @@ if (isset($_POST['reg_user'])) {
                                             <input type="password" name="password_rep" placeholder="Repeat Password*" required/>
                                         </div>
                                         <div class="form-field-wrapper">
-                                            <input type="text" name="phone_number" placeholder="Phone Number*" required/>
+                                            <input type="text" name="phone_number" placeholder="Phone Number*"
+                                            <?php if (!empty($_SESSION['phone_number'])) {
+                                                echo 'value = "'. $_SESSION['phone_number'].'" ';
+                                            }
+                                            ?>" required/>
+                                            
                                         </div>
                                     </div>
                                     <div class="secondary-container">
                                         <h4 class="form-title">My Company</h4>
                                         <div class="form-field-wrapper">
-                                            <input type="text" name="company_name" placeholder="Company Name"/>
+                                            <input type="text" name="company_name" placeholder="Company Name"
+                                            <?php if (!empty($_SESSION['company_name'])) {
+                                                echo 'value = "'. $_SESSION['company_name'].'" ';
+                                            }
+                                            ?>" />
+
                                         </div>
                                         <div class="form-field-wrapper">
-                                            <input type="text" name="company_site" placeholder="Company Site"/>
+                                            <input type="text" name="company_site" placeholder="Company Site"
+                                            <?php if (!empty($_SESSION['company_site'])) {
+                                                echo 'value = "'. $_SESSION['company_site'].'" ';
+                                            }
+                                            ?>" />
                                         </div>
                                         <div class="form-field-wrapper">
                                             <textarea name="company_description" placeholder="Description"></textarea>
@@ -175,6 +212,6 @@ if (isset($_POST['reg_user'])) {
                                 </div>                  
                                 <button type="sumbit" name="reg_user" class="button">Register</button>
                             </form>
-                            <?php require_once('errors.php'); ?>
+                            
                         </div>
                     </div>

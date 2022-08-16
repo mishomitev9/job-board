@@ -35,26 +35,26 @@ if (!empty($_SESSION['$user_id'])) {
 <header class="site-header">
             <div class="row site-header-inner">
                 <div class="site-header-branding">
-                    <h1 class="site-title"><a href="<?php echo SITE_URL ?>index.php">Job Offers</a></h1>
+                    <h1 class="site-title"><a href="<?php echo SITE_URL; ?>index.php">Job Offers</a></h1>
                 </div>
                 <nav class="site-header-navigation">
                     <ul class="menu">
                         <li class="menu-item">
-                            <a href="<?php echo SITE_URL ?>index.php">Home</a>                 
+                            <a href="<?php echo SITE_URL; ?>index.php">Home</a>                 
                         </li>
                         <li class="menu-item">
                         <?php
                         if (!$_SESSION['logged_in']) {
                             ?>
-                    <a href="<?php echo SITE_URL ?>register.php">Register</a>
+                    <a href="<?php echo SITE_URL; ?>register.php">Register</a>
                         <?php } else {
                             if ($_SESSION['is_company'] == true) {
                                 ?>
-                    <a href="<?php echo SITE_URL ?>dashboard.php">Dashboard</a>
-                    <a href="<?php echo SITE_URL ?>actions-job.php">Create Job</a>
+                    <a href="<?php echo SITE_URL; ?>dashboard.php">Dashboard</a>
+                    <a href="<?php echo SITE_URL; ?>actions-job.php">Create Job</a>
                             <?php }
                             ?>
-                    <a href="<?php echo SITE_URL ?>profile.php">My Profile</a>
+                    <a href="<?php echo SITE_URL; ?>profile.php">My Profile</a>
                         <?php }
                         ?>
             </li>
@@ -62,9 +62,9 @@ if (!empty($_SESSION['$user_id'])) {
                 <?php
                 if (!$_SESSION['logged_in']) {
                     ?>
-                    <a href="<?php echo SITE_URL ?>login.php">Log In</a>
+                    <a href="<?php echo SITE_URL; ?>login.php">Log In</a>
                 <?php } else { ?>
-                    <a href="<?php echo SITE_URL ?>logout.php">Sign Out</a>
+                    <a href="<?php echo SITE_URL; ?>logout.php">Sign Out</a>
                 <?php } ?>              
                 </li>
             </ul>
