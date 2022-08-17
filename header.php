@@ -42,18 +42,21 @@ if (!empty($_SESSION['$user_id'])) {
                         </li>
                         <li class="menu-item">
                         <?php
-                        if (!$_SESSION['logged_in']) {
+                        if (!$_SESSION['logged_in']) :
                             ?>
                     <a href="<?php echo SITE_URL; ?>register.php">Register</a>
-                        <?php } else {
-                            if ($_SESSION['is_company'] == true) {
+                            <?php
+                        else :
+                            if ($_SESSION['is_company'] == true) :
                                 ?>
                     <a href="<?php echo SITE_URL; ?>dashboard.php">Dashboard</a>
                     <a href="<?php echo SITE_URL; ?>actions-job.php">Create Job</a>
-                            <?php }
+                                <?php
+                            endif;
                             ?>
                     <a href="<?php echo SITE_URL; ?>profile.php">My Profile</a>
-                        <?php }
+                             <?php
+                        endif;
                         ?>
             </li>
                 <li class="menu-item">
