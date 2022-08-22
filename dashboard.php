@@ -1,5 +1,7 @@
-<?php include_once('header.php'); ?>
-
+<?php
+include_once('header.php');
+include_once('functions.php');
+?>
         <main class="site-main">
             <section class="section-fullwidth section-jobs-dashboard">
                 <div class="row">
@@ -35,16 +37,28 @@
                         </div>
                     </div>
                     <ul class="jobs-listing">
+
+                    <?php
+                    $sql_jobs = "SELECT jobs.id, jobs.title, jobs.salary, jobs.location, jobs.date_posted, jobs.description, users.phone, users.company_name, users.company_site FROM jobs 
+                    LEFT JOIN users ON jobs.user_id = users.id ORDER BY date_posted";
+                    $jobs_result = mysqli_query($db_connect, $sql_jobs);
+                    if (mysqli_num_rows($jobs_result) > 0) {
+                    // output data of each row
+                        while ($row = mysqli_fetch_assoc($jobs_result)) {
+                            $posted_date = date($row["date_posted"]);
+                            $posted_date = date_create($posted_date);
+                            ?>
+
                         <li class="job-card">
                             <div class="job-primary">
-                                <h2 class="job-title"><a href="#">Front End Developer</a></h2>
+                                <h2 class="job-title"><a href="#"><?php echo $row["title"]; ?></a></h2>
                                 <div class="job-meta">
-                                    <a class="meta-company" href="#">Company Awesome Ltd.</a>
-                                    <span class="meta-date">Posted 14 days ago</span>
+                                    <a class="meta-company" href="<?php echo $row["company_site"]; ?>"><?php echo $row["company_name"]; ?></a>
+                                    <span class="meta-date">Posted <?php echo time_message($posted_date); ?></span>
                                 </div>
                                 <div class="job-details">
-                                    <span class="job-location">The Hague (The Netherlands)</span>
-                                    <span class="job-type">Contract staff</span>
+                                    <span class="job-location"><?php echo $row["location"]; ?></span>
+                                    <span class="job-type"><?php echo $row["phone"]; ?></span>
                                 </div>
                             </div>
                             <div class="job-secondary">
@@ -58,86 +72,10 @@
                                 </div>
                             </div>
                         </li>
-                        <li class="job-card">
-                            <div class="job-primary">
-                                <h2 class="job-title"><a href="#">Front End Developer</a></h2>
-                                <div class="job-meta">
-                                    <a class="meta-company" href="#">Company Awesome Ltd.</a>
-                                    <span class="meta-date">Posted 14 days ago</span>
-                                </div>
-                                <div class="job-details">
-                                    <span class="job-location">The Hague (The Netherlands)</span>
-                                    <span class="job-type">Contract staff</span>
-                                </div>
-                            </div>
-                            <div class="job-secondary">
-                                <div class="job-actions">
-                                    <a href="#">Approve</a>
-                                    <a href="#">Reject</a>
-                                </div>
-                                <div class="job-edit">
-                                    <a href="#">View Submissions</a>
-                                    <a href="#">Edit</a>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="job-card">
-                            <div class="job-primary">
-                                <h2 class="job-title"><a href="#">Front End Developer</a></h2>
-                                <div class="job-meta">
-                                    <a class="meta-company" href="#">Company Awesome Ltd.</a>
-                                    <span class="meta-date">Posted 14 days ago</span>
-                                </div>
-                                <div class="job-details">
-                                    <span class="job-location">The Hague (The Netherlands)</span>
-                                    <span class="job-type">Contract staff</span>
-                                </div>
-                            </div>
-                            <div class="job-secondary">
-                                <div class="job-edit">
-                                    <a href="#">View Submissions</a>
-                                    <a href="#">Edit</a>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="job-card">
-                            <div class="job-primary">
-                                <h2 class="job-title"><a href="#">Front End Developer</a></h2>
-                                <div class="job-meta">
-                                    <a class="meta-company" href="#">Company Awesome Ltd.</a>
-                                    <span class="meta-date">Posted 14 days ago</span>
-                                </div>
-                                <div class="job-details">
-                                    <span class="job-location">The Hague (The Netherlands)</span>
-                                    <span class="job-type">Contract staff</span>
-                                </div>
-                            </div>
-                            <div class="job-secondary">
-                                <div class="job-edit">
-                                    <a href="#">View Submissions</a>
-                                    <a href="#">Edit</a>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="job-card">
-                            <div class="job-primary">
-                                <h2 class="job-title"><a href="#">Front End Developer</a></h2>
-                                <div class="job-meta">
-                                    <a class="meta-company" href="#">Company Awesome Ltd.</a>
-                                    <span class="meta-date">Posted 14 days ago</span>
-                                </div>
-                                <div class="job-details">
-                                    <span class="job-location">The Hague (The Netherlands)</span>
-                                    <span class="job-type">Contract staff</span>
-                                </div>
-                            </div>
-                            <div class="job-secondary">
-                                <div class="job-edit">
-                                    <a href="#">View Submissions</a>
-                                    <a href="#">Edit</a>
-                                </div>
-                            </div>
-                        </li>
+                            <?php
+                        }
+                    }
+                    ?>
                     </ul>
                     <div class="jobs-pagination-wrapper">
                         <div class="nav-links"> 

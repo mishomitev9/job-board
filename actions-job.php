@@ -1,8 +1,9 @@
  <?php include_once('header.php'); // Include Header once
+ $today_date = date("Y/m/d"); // Get today date
  
  if (isset($_POST['new_job'])) {
      if (isset($_SESSION['is_company'])) { // Check if the key exist in $_SESSION
-         if ($_SESSION['is_company'] = true) { // Check if the log is company
+         if ($_SESSION['is_company'] == true) { // Check if the logged acc is company
           // initializing variables
                $title = mysqli_real_escape_string($db_connect, $_POST['title']);
                $location = mysqli_real_escape_string($db_connect, $_POST['location']);
@@ -20,16 +21,19 @@
             
              if (count($errors) == 0) {
                  $user_id = $_SESSION['$user_id'];
-                 $job_query = "INSERT INTO jobs (user_id, title, salary, location, description) 
-		  VALUES ('$user_id', '$title', '$salary', '$location', '$description')";
-    
+
+                 // Insert job data
+                 $job_query ="INSERT INTO jobs 
+                (user_id, title, salary, location, date_posted, description) 
+		        VALUES 
+                ('$user_id', '$title', '$salary', '$location', '$today_date', '$description')";
                  mysqli_query($db_connect, $job_query);
              }
          }
      }
  }
-    ?>
 
+    ?>
         <main class="site-main">
             <section class="section-fullwidth">
                 <div class="row">   

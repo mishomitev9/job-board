@@ -2,7 +2,6 @@
 
 function time_message($post_date)
 {
-    $today_date = date("Y/m/d");
     $today_date = date_create();
     $post_date = date_diff($today_date, $post_date);
     $post_date = $post_date->format('%a');
