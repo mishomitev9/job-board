@@ -1,7 +1,7 @@
 <?php
 
      include_once('header.php'); // Include Header once
-    // var_dump($_SESSION['$user_id']);
+   
     $hashed_password = '';
 if (isset($_POST['login_user'])) {
     $errors = array();
@@ -36,12 +36,32 @@ if (isset($_POST['login_user'])) {
           $query_id = "SELECT id FROM users WHERE email = '$email_address'";
     
           $results_id = mysqli_query($db_connect, $query_id);
-         
+ 
           $matches_id = mysqli_num_rows($results_id);
+
         if (0 !== $matches_id) {
             $row_id = $results_id->fetch_row();
             $user_id = $row_id[0];
             $_SESSION['$user_id'] = $user_id;
+
+            // Select data for My Profile input values
+            $query_profile = "SELECT first_name, last_name, email, phone, company_name, company_site, company_description, company_image, user_password, is_company
+            FROM users WHERE id = $user_id";
+
+             $results_profile = mysqli_query($db_connect, $query_profile);
+ 
+             $matches_profile = $results_profile->fetch_all()[0];
+            
+             $_SESSION['first_name'] = $matches_profile[0];
+             $_SESSION['last_name'] = $matches_profile[1];
+             $_SESSION['email_address'] = $matches_profile[2];
+             $_SESSION['phone_number'] = $matches_profile[3];
+             $_SESSION['company_name'] = $matches_profile[4];
+             $_SESSION['company_site'] = $matches_profile[5];
+             $_SESSION['company_description'] = $matches_profile[6];
+             $_SESSION['company_image'] = $matches_profile[7];
+             $_SESSION['user_password'] = $matches_profile[8];
+             $_SESSION['is_company'] = $matches_profile[9];
             header('location: index.php');
         }
     }

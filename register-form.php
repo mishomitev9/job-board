@@ -21,6 +21,7 @@ if (isset($_POST['reg_user'])) {
     $_SESSION['company_description'] = $_POST['company_description'];
     
     $errors = array();
+    $is_company = isset($company_name) ? 1 : 0;
     
     // Validation
     if (empty($first_name)) {
@@ -45,7 +46,7 @@ if (isset($_POST['reg_user'])) {
         $email_pattern = '/@devrix.com/';
         $is_admin = preg_match($email_pattern, $email_address) ? 1 : 0;
     } else {
-        $errors [] = "Email is not valid";
+        $errors[] = "Email is not valid";
     }
     
     // Validate password with 8 characters, at least one special character, at least one capital, and at least one small letter.
@@ -54,7 +55,7 @@ if (isset($_POST['reg_user'])) {
       $password_special_chars = preg_match('@[^\w]@', $password);
       
     if (!$password_uppercase || !$password_lowercase || !$password_special_chars || strlen($password) < 8) {
-        $errors [] = 'Password must be at least 8 characters, at least one special character, at least one capital letter, and at least one small letter.';
+        $errors[] = 'Password must be at least 8 characters, at least one special character, at least one capital letter, and at least one small letter.';
     }
     
     // Validate phone number
@@ -67,7 +68,7 @@ if (isset($_POST['reg_user'])) {
         $phone_number = ltrim($phone_number, '0');
         $phone_number = "+359" . $phone_number;
     } else {
-        $errors [] = "Phone number is not valid";
+        $errors[] = "Phone number is not valid";
     }
     
     // Validation for empty URL
@@ -90,7 +91,7 @@ if (isset($_POST['reg_user'])) {
     
     // Check for file validation
     $company_image = '';
-    if (isset($_FILES['upload_logo']) && isset($company_name)) {
+    if (isset($_FILES['upload_logo']) && isset($company_name) && $is_company == true) {
         $logo_name = $_FILES['upload_logo']['name'];
         $logo_size = $_FILES['upload_logo']['size'];
         $logo_tmp_name = $_FILES['upload_logo']['tmp_name'];
@@ -112,15 +113,20 @@ if (isset($_POST['reg_user'])) {
                 $errors[] = "You can not upload file from this type";
             }
         }
-    } else {
-        $errors[] = "You need to fill Company name to upload logo";
+    } elseif ((isset($company_name) || isset($company_description) || isset($logo_name)) && !((isset($company_name) && isset($company_description) && isset($logo_name)))) {
+        $errors[] = "Please fill all company fields!";
     }
+
+    // Check for filled company name
+    // if (isset($company_description)) {
+    //     $errors[] = "You need to fill Company name first and than you can add company description";
+    // }
     
     // Resgister user without errors
     if (count($errors) == 0) {
         $password_encryption = password_hash($password, PASSWORD_DEFAULT); // Encryption the password with password_hash
-        $query = "INSERT INTO users (first_name, last_name, email, user_password, phone, is_admin, company_name, company_site, company_description, company_image) 
-		  VALUES ('$first_name', '$last_name', '$email_address', '$password_encryption', '$phone_number', '$is_admin', '$company_name', '$company_site', '$company_description', '$company_image')";
+        $query = "INSERT INTO users (first_name, last_name, email, user_password, phone, is_admin, company_name, company_site, company_description, company_image, is_company) 
+		  VALUES ('$first_name', '$last_name', '$email_address', '$password_encryption', '$phone_number', '$is_admin', '$company_name', '$company_site', '$company_description', '$company_image', '$is_company')";
     
         mysqli_query($db_connect, $query);
 
