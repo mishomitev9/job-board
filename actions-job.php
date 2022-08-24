@@ -1,7 +1,9 @@
- <?php include_once('header.php'); // Include Header once
- $today_date = date("Y/m/d"); // Get today date
- 
+ <?php
+ include_once('header.php'); // Include Header once
+
  if (isset($_POST['new_job'])) {
+     $today_date = date("Y/m/d"); // Get today date
+
      if (isset($_SESSION['is_company'])) { // Check if the key exist in $_SESSION
          if ($_SESSION['is_company'] == true) { // Check if the logged acc is company
           // initializing variables
@@ -22,12 +24,23 @@
              if (count($errors) == 0) {
                  $user_id = $_SESSION['$user_id'];
 
-                 // Insert job data
-                 $job_query ="INSERT INTO jobs 
-                (user_id, title, salary, location, date_posted, description) 
-		        VALUES 
-                ('$user_id', '$title', '$salary', '$location', '$today_date', '$description')";
-                 mysqli_query($db_connect, $job_query);
+                 $stmt = $db_connect->prepare("INSERT INTO
+                jobs(user_id, title, salary, location, date_posted, description, is_approved)
+                VALUES(?, ?, ?, ?, ?, ?, ?)");
+                 $is_approved = 0;
+                 $stmt->bind_param(
+                     "sssssss",
+                     $user_id,
+                     $title,
+                     $salary,
+                     $location,
+                     $today_date,
+                     $description,
+                     $is_approved
+                 );
+                 if ($stmt->execute() === false) {
+                     echo "Error: " . $stmt->error;
+                 }
              }
          }
      }
