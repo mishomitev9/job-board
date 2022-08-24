@@ -5,7 +5,7 @@ if (!empty($_SESSION['$user_id'])) {
     $_SESSION['logged_in'] = true;
     $_SESSION['is_company'] = false;
 
-
+    // My last working query
     // $query = "SELECT company_name FROM users WHERE id= " . $_SESSION['$user_id'] . " ";
     // $result_company = mysqli_query($db_connect, $query);
     // $matches_company = mysqli_num_rows($result_company);
@@ -16,6 +16,7 @@ if (!empty($_SESSION['$user_id'])) {
     //     }
     // }
 
+    // New prepared statment - not working pls help
     $query = "SELECT company_name FROM users WHERE id=?"; // SQL with parameters
     $stmt = $db_connect->prepare($query);
     $stmt->bind_param("i", $id);
@@ -27,26 +28,6 @@ if (!empty($_SESSION['$user_id'])) {
     // if ($company_name_fetched['company_name'] != "") {
     //     $_SESSION['is_company'] = true;
     // }
-
-    // $stmt = $db_connect->prepare("SELECT company_name
-    //     FROM jobs WHERE id = " . $_SESSION['$user_id'] . " ";
-       
-    //         $is_approved = 0;
-    //         $stmt->bind_param(
-    //             "sssssss",
-    //             $user_id,
-    //             $title,
-    //             $salary,
-    //             $location,
-    //             $today_date,
-    //             $description,
-    //             $is_approved
-    //              );
-    //              if ($stmt->execute() === false) {
-    //                  echo "Error: " . $stmt->error;
-    //              }
-
-
 
 }
 ?>
