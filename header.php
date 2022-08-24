@@ -5,29 +5,15 @@ if (!empty($_SESSION['$user_id'])) {
     $_SESSION['logged_in'] = true;
     $_SESSION['is_company'] = false;
 
-    // My last working query
-    // $query = "SELECT company_name FROM users WHERE id= " . $_SESSION['$user_id'] . " ";
-    // $result_company = mysqli_query($db_connect, $query);
-    // $matches_company = mysqli_num_rows($result_company);
-    // if (0 !== $matches_company) {
-    //     $rows = $result_company->fetch_assoc();
-    //     if ($rows['company_name'] != "") {
-    //         $_SESSION['is_company'] = true;
-    //     }
-    // }
-
-    // New prepared statment - not working pls help
     $query = "SELECT company_name FROM users WHERE id=?"; // SQL with parameters
     $stmt = $db_connect->prepare($query);
-    $stmt->bind_param("i", $id);
+    $stmt->bind_param("i", $_SESSION['$user_id']);
     $stmt->execute();
-    var_dump($id);
     $result = $stmt->get_result(); // get the mysqli result
     $company_name_fetched = $result->fetch_assoc(); // fetch data
-    var_dump($company_name_fetched);
-    // if ($company_name_fetched['company_name'] != "") {
-    //     $_SESSION['is_company'] = true;
-    // }
+     if ($company_name_fetched['company_name'] != "") {
+        $_SESSION['is_company'] = true;
+     }
 
 }
 ?>
