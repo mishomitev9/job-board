@@ -15,55 +15,65 @@ if (isset($_POST['login_user'])) {
     if (empty($user_password)) {
         $errors[] = 'Password is required';
     }
-
     if (count($errors) == 0) {
-        $query = "SELECT user_password FROM users WHERE email = '$email_address'";
-    
-        $results = mysqli_query($db_connect, $query);
-        
-        $matches = mysqli_num_rows($results);
-        if (0 !== $matches) {
-            $row = $results->fetch_row();
-                $hashed_password = $row[0];
+
+        $query = "SELECT user_password FROM users WHERE email =?";
+            $stmt = $db_connect->prepare($query); 
+            $stmt->bind_param("s", $email_address);
+            $stmt->execute();
+            $result_password = $stmt->get_result(); // get the result
+
+            if ($result_password != false) {
+                $matches_pass = $result_password->fetch_assoc(); // fetch data
+                $hashed_password = $matches_pass["user_password"];
         }
-            
+
         if (password_verify($_POST['user_password'], $hashed_password)) {
             header('location: index.php');
         } else {
             $errors[] = "Wrong username or password. Please try again.";
         }
 
-          $query_id = "SELECT id FROM users WHERE email = '$email_address'";
-    
-          $results_id = mysqli_query($db_connect, $query_id);
- 
-          $matches_id = mysqli_num_rows($results_id);
+            // SQL with parameters
+            $query_id = "SELECT id FROM users WHERE email =?";
+            $stmt1 = $db_connect->prepare($query_id); 
+            $stmt1->bind_param("s", $email_address);
+            $stmt1->execute();
+            $result = $stmt1->get_result(); // get the mysqli result
+            if ($result != false) {
 
-        if (0 !== $matches_id) {
-            $row_id = $results_id->fetch_row();
-            $user_id = $row_id[0];
-            $_SESSION['$user_id'] = $user_id;
+                $matches_id = $result->fetch_assoc(); // fetch data
+                $user_id = $matches_id['id']; 
+                $_SESSION['$user_id'] = $user_id;
 
-            // Select data for My Profile input values
-            $query_profile = "SELECT first_name, last_name, email, phone, company_name, company_site, company_description, company_image, user_password, is_company
-            FROM users WHERE id = $user_id";
+                   // Select data for My Profile input values
+                     $query_profile = "SELECT first_name, last_name, email,
+                     phone, company_name, company_site, company_description,
+                     company_image, user_password, is_company
+                     FROM users WHERE id = ?";
 
-             $results_profile = mysqli_query($db_connect, $query_profile);
- 
-             $matches_profile = $results_profile->fetch_all()[0];
-            
-             $_SESSION['first_name'] = $matches_profile[0];
-             $_SESSION['last_name'] = $matches_profile[1];
-             $_SESSION['email_address'] = $matches_profile[2];
-             $_SESSION['phone_number'] = $matches_profile[3];
-             $_SESSION['company_name'] = $matches_profile[4];
-             $_SESSION['company_site'] = $matches_profile[5];
-             $_SESSION['company_description'] = $matches_profile[6];
-             $_SESSION['company_image'] = $matches_profile[7];
-             $_SESSION['user_password'] = $matches_profile[8];
-             $_SESSION['is_company'] = $matches_profile[9];
-            header('location: index.php');
-        }
+                    $stmt2 = $db_connect->prepare($query_profile);
+                    $stmt2->bind_param("i", $_SESSION['$user_id']);
+                    $stmt2->execute();
+                    $result_profile = $stmt2->get_result();
+                    $result_profile = $result_profile->fetch_assoc();
+
+                     if ($result_profile != false) {
+                        $_SESSION['first_name'] = $result_profile["first_name"];
+                        $_SESSION['last_name'] = $result_profile["last_name"];
+                        $_SESSION['email_address'] = $result_profile["email_address"];
+                        $_SESSION['phone_number'] = $result_profile["phone_number"];
+                        $_SESSION['company_name'] = $result_profile["company_name"];
+                        $_SESSION['company_site'] = $result_profile["company_site"];
+                        $_SESSION['company_description'] = $result_profile["company_description"];
+                        $_SESSION['company_image'] = $result_profile["company_image"];
+                        $_SESSION['user_password'] = $result_profile["user_password"];
+                        $_SESSION['is_company'] = $result_profile["is_company"];
+                        
+                       header('location: index.php');
+                    }
+                }
+
     }
 }
 
