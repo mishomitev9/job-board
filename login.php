@@ -13,7 +13,7 @@ if (isset($_POST['login_user'])) {
         $errors[] = 'Password is required';
     }
     if (count($errors) == 0) {
-        $query = "SELECT user_password FROM users WHERE email =?";
+            $query = "SELECT user_password FROM users WHERE email =?";
             $stmt = $db_connect->prepare($query);
             $stmt->bind_param("s", $email_address);
             $stmt->execute();
@@ -45,7 +45,7 @@ if (isset($_POST['login_user'])) {
             $query_profile = "SELECT first_name, last_name, email,
                      phone, company_name, company_site, company_description,
                      company_image, user_password, is_company
-                     FROM users WHERE id = ?";
+                     FROM users WHERE id =?";
 
             $stmt2 = $db_connect->prepare($query_profile);
             $stmt2->bind_param("i", $_SESSION['$user_id']);
