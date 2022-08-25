@@ -54,16 +54,16 @@ if (isset($_POST['login_user'])) {
             $result_profile = $result_profile->fetch_assoc();
 
             if ($result_profile != false) {
-                $_SESSION['first_name'] = $result_profile["first_name"];
-                $_SESSION['last_name'] = $result_profile["last_name"];
-                $_SESSION['email_address'] = $result_profile["email"];
-                $_SESSION['phone_number'] = $result_profile["phone"];
-                $_SESSION['company_name'] = $result_profile["company_name"];
-                $_SESSION['company_site'] = $result_profile["company_site"];
+                $_SESSION['first_name']          = $result_profile["first_name"];
+                $_SESSION['last_name']           = $result_profile["last_name"];
+                $_SESSION['email_address']       = $result_profile["email"];
+                $_SESSION['phone_number']        = $result_profile["phone"];
+                $_SESSION['company_name']        = $result_profile["company_name"];
+                $_SESSION['company_site']        = $result_profile["company_site"];
                 $_SESSION['company_description'] = $result_profile["company_description"];
-                $_SESSION['company_image'] = $result_profile["company_image"];
-                $_SESSION['user_password'] = $result_profile["user_password"];
-                $_SESSION['is_company'] = $result_profile["is_company"];
+                $_SESSION['company_image']       = $result_profile["company_image"];
+                $_SESSION['user_password']       = $result_profile["user_password"];
+                $_SESSION['is_company']          = $result_profile["is_company"];
                         
                 header('location: index.php');
             }
@@ -95,5 +95,5 @@ if (isset($_POST['login_user'])) {
                 </div>
             </section>
         </main>
-        
+
 <?php include_once('footer.php'); ?>
