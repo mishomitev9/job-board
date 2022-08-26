@@ -10,11 +10,12 @@ if (!empty($_SESSION['$user_id'])) {
     $stmt->bind_param("i", $_SESSION['$user_id']);
     $stmt->execute();
     $result = $stmt->get_result(); // get the mysqli result
-    $company_name_fetched = $result->fetch_assoc(); // fetch data
-     if ($company_name_fetched['company_name'] != "") {
-        $_SESSION['is_company'] = true;
-     }
-
+    if ($result != false) {
+        $company_name_fetched = $result->fetch_assoc(); // fetch data
+        if ($company_name_fetched['company_name'] != "") {
+            $_SESSION['is_company'] = true;
+        }
+    }
 }
 ?>
 

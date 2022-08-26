@@ -33,14 +33,13 @@
         }
 
         // Validate password with 8 characters, at least one special character, at least one capital, and at least one small letter.
-        $password_uppercase = preg_match('@[A-Z]@', $password);
-        $password_lowercase = preg_match('@[a-z]@', $password);
+        $password_uppercase     = preg_match('@[A-Z]@', $password);
+        $password_lowercase     = preg_match('@[a-z]@', $password);
         $password_special_chars = preg_match('@[^\w]@', $password);
 
         if (!$password_uppercase || !$password_lowercase || !$password_special_chars || strlen($password) < 8) {
             $errors[] = 'Password must be at least 8 characters, at least one special character, at least one capital letter, and at least one small letter.';
         }
-
 
         // Validate phone number
         $phone_plus = '/359([0-9]*)/';
@@ -64,9 +63,9 @@
         if (isset($_FILES['upload_logo']) && isset($company_name) && isset($company_description)) {
             // Image validation
             $company_image = '';
-            $logo_name = $_FILES['upload_logo']['name'];
+            $logo_name     = $_FILES['upload_logo']['name'];
             $logo_tmp_name = $_FILES['upload_logo']['tmp_name'];
-            $logo_error = $_FILES['upload_logo']['error'];
+            $logo_error    = $_FILES['upload_logo']['error'];
     
             if ($logo_error === 0) {
                 $logo_extenstion = pathinfo($logo_name, PATHINFO_EXTENSION);
@@ -87,14 +86,6 @@
         } elseif ((isset($company_name) || isset($company_description) || isset($logo_name))) {
             $errors[] = "Please fill all company fields!";
         }
-        //  else {
-        //     $errors[] = "You need to add Company name first and than you can upload company logo";
-        // }
-
-        // Check for filled company name
-        // if (!isset($company_title)) {
-        //     $errors[] = "You need to fill Company name first and than you can add company description";
-        // }
 
         // Update data only without errors
         if (count($errors) == 0) {
@@ -102,31 +93,32 @@
         
             if ($is_company) {
                 $query = "UPDATE users SET 
-                    first_name='$first_name',
-                    last_name='$last_name',
-                    email='$email_address',
-                    user_password='$password_encryption',
-                    phone='$phone_number',
-                    is_admin='$is_admin',
-                    company_name='$company_name',
-                    company_site='$company_site',
-                    company_description='$company_description',
-                    company_image='$company_image' 
-                WHERE id='{$_SESSION['$user_id']}'";
+                    first_name =          '$first_name',
+                    last_name =           '$last_name',
+                    email =               '$email_address',
+                    user_password =       '$password_encryption',
+                    phone =               '$phone_number',
+                    is_admin =            '$is_admin',
+                    company_name =        '$company_name',
+                    company_site =        '$company_site',
+                    company_description = '$company_description',
+                    company_image =        '$company_image' 
+                    WHERE id='{$_SESSION['$user_id']}'";
             } else {
                 $query = "UPDATE users SET 
-                first_name='$first_name',
-                last_name='$last_name',
-                email='$email_address',
-                user_password='$password_encryption',
-                phone='$phone_number',
-                is_admin='$is_admin'
-            WHERE id='{$_SESSION['$user_id']}'";
+                first_name    = '$first_name',
+                last_name     = '$last_name',
+                email         = '$email_address',
+                user_password = '$password_encryption',
+                phone         = '$phone_number',
+                is_admin      = '$is_admin'
+                WHERE id='{$_SESSION['$user_id']}'";
             }
             mysqli_query($db_connect, $query);
           //  echo "Updated successfully";
-            $query_profile = "SELECT first_name, last_name, email, phone, company_name, company_site, company_description, company_image, user_password 
-            FROM users WHERE id = '{$_SESSION['$user_id']}'";
+                $query_profile = "SELECT first_name, last_name, email, phone, company_name,
+                 company_site, company_description, company_image, user_password 
+                FROM users WHERE id = '{$_SESSION['$user_id']}'";
 
              $results_profile = mysqli_query($db_connect, $query_profile);
  
