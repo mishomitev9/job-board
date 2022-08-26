@@ -26,7 +26,6 @@ if (isset($_POST['login_user'])) {
         
         if (password_verify($_POST['user_password'], $hashed_password)) {
             header('location: index.php');
-            //die;
         } else {
             $errors[] = "Wrong username or password. Please try again.";
         }
@@ -41,6 +40,7 @@ if (isset($_POST['login_user'])) {
             $matches_id = $result->fetch_assoc(); // fetch data
             $user_id = $matches_id['id'];
             $_SESSION['$user_id'] = $user_id;
+            //header('location: index.php');
         }
     }
 }

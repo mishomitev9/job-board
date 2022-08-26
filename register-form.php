@@ -129,7 +129,7 @@ if (isset($_POST['reg_user'])) {
         $user_id = mysqli_insert_id($db_connect);
         $_SESSION['$user_id'] = $user_id;
         header('location: index.php');
-        die;
+        //die;
     }
 }
 
