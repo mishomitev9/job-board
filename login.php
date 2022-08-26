@@ -41,32 +41,7 @@ if (isset($_POST['login_user'])) {
             $user_id = $matches_id['id'];
             $_SESSION['$user_id'] = $user_id;
 
-       // Select data for My Profile input values
-            $query_profile = "SELECT first_name, last_name, email,
-                     phone, company_name, company_site, company_description,
-                     company_image, user_password, is_company
-                     FROM users WHERE id =?";
-
-            $stmt2 = $db_connect->prepare($query_profile);
-            $stmt2->bind_param("i", $_SESSION['$user_id']);
-            $stmt2->execute();
-            $result_profile = $stmt2->get_result();
-            $result_profile = $result_profile->fetch_assoc();
-
-            if ($result_profile != false) {
-                $_SESSION['first_name']          = $result_profile["first_name"];
-                $_SESSION['last_name']           = $result_profile["last_name"];
-                $_SESSION['email_address']       = $result_profile["email"];
-                $_SESSION['phone_number']        = $result_profile["phone"];
-                $_SESSION['company_name']        = $result_profile["company_name"];
-                $_SESSION['company_site']        = $result_profile["company_site"];
-                $_SESSION['company_description'] = $result_profile["company_description"];
-                $_SESSION['company_image']       = $result_profile["company_image"];
-                $_SESSION['user_password']       = $result_profile["user_password"];
-                $_SESSION['is_company']          = $result_profile["is_company"];
-                        
-                header('location: index.php');
-            }
+            header('location: index.php');
         }
     }
 }
