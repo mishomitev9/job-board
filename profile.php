@@ -6,10 +6,10 @@
      company_image, user_password, is_company
      FROM users WHERE id =?";
 
-    $stmt2 = $db_connect->prepare($query_profile);
-    $stmt2->bind_param("i", $_SESSION['$user_id']);
-    $stmt2->execute();
-    $result_profile = $stmt2->get_result();
+    $stmt = $db_connect->prepare($query_profile);
+    $stmt->bind_param("i", $_SESSION['$user_id']);
+    $stmt->execute();
+    $result_profile = $stmt->get_result();
     $result_profile = $result_profile->fetch_assoc();
 
  if ($result_profile != false) {
@@ -37,8 +37,6 @@
      $company_description = mysqli_real_escape_string($db_connect, $_POST['company_description']);
 
      $errors = array();
-
-     $is_company = $_SESSION['is_company'];
 
      // Validate if email is admin or not
      $email_address = filter_var($email_address, FILTER_SANITIZE_EMAIL);
@@ -109,47 +107,59 @@
          $password_encryption = password_hash($password, PASSWORD_DEFAULT); // Encryption the password with password_hash
         
          if ($is_company) {
-             $query = "UPDATE users SET 
-                    first_name =          '$first_name',
-                    last_name =           '$last_name',
-                    email =               '$email_address',
-                    user_password =       '$password_encryption',
-                    phone =               '$phone_number',
-                    is_admin =            '$is_admin',
-                    company_name =        '$company_name',
-                    company_site =        '$company_site',
-                    company_description = '$company_description',
-                    company_image =        '$company_image' 
-                    WHERE id='{$_SESSION['$user_id']}'";
+                $query = "UPDATE users SET 
+                first_name =          '$first_name',
+                last_name =           '$last_name',
+                email =               '$email_address',
+                user_password =       '$password_encryption',
+                phone =               '$phone_number',
+                is_admin =            '$is_admin',
+                company_name =        '$company_name',
+                company_site =        '$company_site',
+                company_description = '$company_description',
+                company_image =        '$company_image' 
+                WHERE id =?";
          } else {
              $query = "UPDATE users SET 
-                first_name    = '$first_name',
-                last_name     = '$last_name',
-                email         = '$email_address',
-                user_password = '$password_encryption',
-                phone         = '$phone_number',
-                is_admin      = '$is_admin'
-                WHERE id='{$_SESSION['$user_id']}'";
+            first_name =          '$first_name',
+            last_name =           '$last_name',
+            email =               '$email_address',
+            user_password =       '$password_encryption',
+            phone =               '$phone_number',
+            is_admin =            '$is_admin',
+            WHERE id =?";
          }
-         mysqli_query($db_connect, $query);
-       //  echo "Updated successfully";
-             $query_profile = "SELECT first_name, last_name, email, phone, company_name,
-                 company_site, company_description, company_image, user_password 
-                FROM users WHERE id = '{$_SESSION['$user_id']}'";
+            $stmt1 = $db_connect->prepare($query);
+            $stmt1->bind_param("i", $_SESSION['$user_id']);
+            $stmt1->execute();
+            $result_profile_update = $stmt1->get_result();
 
-          $results_profile = mysqli_query($db_connect, $query_profile);
- 
-          $matches_profile = $results_profile->fetch_all()[0];
-            
-          $_SESSION['first_name'] = $matches_profile[0];
-          $_SESSION['last_name'] = $matches_profile[1];
-          $_SESSION['email_address'] = $matches_profile[2];
-          $_SESSION['phone_number'] = $matches_profile[3];
-          $_SESSION['company_name'] = $matches_profile[4];
-          $_SESSION['company_site'] = $matches_profile[5];
-          $_SESSION['company_description'] = $matches_profile[6];
-          $_SESSION['company_image'] = $matches_profile[7];
-          $_SESSION['user_password'] = $matches_profile[8];
+         if ($result_profile_update != false) {
+             echo "Updated successfully";
+         
+                $query_updated = "SELECT first_name, last_name, email, phone, company_name,
+                company_site, company_description, company_image, user_password 
+                FROM users WHERE id =?";
+    
+                $stmt2 = $db_connect->prepare($query_updated);
+                $stmt2->bind_param("i", $_SESSION['$user_id']);
+                $stmt2->execute();
+                $result_profile_updated = $stmt2->get_result();
+                $result_profile_updated = $result_profile_updated->fetch_assoc();
+
+             if ($result_profile_updated != false) {
+                 $first_name          = $result_profile_updated["first_name"];
+                 $last_name           = $result_profile_updated["last_name"];
+                 $email_address       = $result_profile_updated["email"];
+                 $phone_number        = $result_profile_updated["phone"];
+                 $company_name        = $result_profile_updated["company_name"];
+                 $company_site        = $result_profile_updated["company_site"];
+                 $company_description = $result_profile_updated["company_description"];
+                 $company_image       = $result_profile_updated["company_image"];
+                 $user_password       = $result_profile_updated["user_password"];
+                 $is_company          = $result_profile_updated["is_company"];
+             }
+         }
      }
  }
     ?>

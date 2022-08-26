@@ -21,7 +21,7 @@ if (isset($_POST['reg_user'])) {
     $_SESSION['company_description'] = $_POST['company_description'];
     
     $errors = array();
-    $is_company = isset($company_name) ? 1 : 0;
+    $is_company = !empty($company_name) ? 1 : 0;
     
     // Validation
     if (empty($first_name)) {
@@ -91,7 +91,7 @@ if (isset($_POST['reg_user'])) {
     
     // Check for file validation
     $company_image = '';
-    if (isset($_FILES['upload_logo']) && isset($company_name) && $is_company == true) {
+    if (!empty($_FILES['upload_logo']) && !empty($company_name) && $is_company == true) {
         $logo_name = $_FILES['upload_logo']['name'];
         $logo_size = $_FILES['upload_logo']['size'];
         $logo_tmp_name = $_FILES['upload_logo']['tmp_name'];
@@ -113,7 +113,7 @@ if (isset($_POST['reg_user'])) {
                 $errors[] = "You can not upload file from this type";
             }
         }
-    } elseif ((isset($company_name) || isset($company_description) || isset($logo_name)) && !((isset($company_name) && isset($company_description) && isset($logo_name)))) {
+    } elseif ((!empty($company_name) || !empty($company_description) || !empty($logo_name)) && !((!empty($company_name) && !empty($company_description) && !empty($logo_name)))) {
         $errors[] = "Please fill all company fields!";
     }
 
@@ -133,6 +133,8 @@ if (isset($_POST['reg_user'])) {
         // Log the user and make a session for the current user
         $user_id = mysqli_insert_id($db_connect);
         $_SESSION['$user_id'] = $user_id;
+        header('location: index.php');
+        die;
     }
 }
 
