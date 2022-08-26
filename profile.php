@@ -121,12 +121,12 @@
                 WHERE id =?";
          } else {
              $query = "UPDATE users SET 
-            first_name =          '$first_name',
-            last_name =           '$last_name',
-            email =               '$email_address',
-            user_password =       '$password_encryption',
-            phone =               '$phone_number',
-            is_admin =            '$is_admin',
+            first_name    = '$first_name',
+            last_name     = '$last_name',
+            email         = '$email_address',
+            user_password = '$password_encryption',
+            phone         = '$phone_number',
+            is_admin      = '$is_admin',
             WHERE id =?";
          }
             $stmt1 = $db_connect->prepare($query);
@@ -163,7 +163,6 @@
      }
  }
     ?>
-
         <main class="site-main">
             <section class="section-fullwidth">
                 <div class="row">   
