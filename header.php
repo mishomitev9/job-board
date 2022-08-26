@@ -4,11 +4,15 @@ $_SESSION['logged_in'] = false;
 if (!empty($_SESSION['$user_id'])) {
     $_SESSION['logged_in'] = true;
     $_SESSION['is_company'] = false;
-    $result_company = mysqli_query($db_connect, "SELECT company_name FROM users WHERE id= " . $_SESSION['$user_id'] . " ");
-    $matches_company = mysqli_num_rows($result_company);
-    if (0 !== $matches_company) {
-        $rows = $result_company->fetch_assoc();
-        if ($rows['company_name'] != "") {
+
+    $query = "SELECT company_name FROM users WHERE id=?"; // SQL with parameters
+    $stmt = $db_connect->prepare($query);
+    $stmt->bind_param("i", $_SESSION['$user_id']);
+    $stmt->execute();
+    $result = $stmt->get_result(); // get the mysqli result
+    if ($result != false) {
+        $company_name_fetched = $result->fetch_assoc(); // fetch data
+        if ($company_name_fetched['company_name'] != "") {
             $_SESSION['is_company'] = true;
         }
     }
