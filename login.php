@@ -21,6 +21,7 @@ if (isset($_POST['login_user'])) {
 
         if ($result_password != false) {
             $matches_pass = $result_password->fetch_assoc(); // fetch data
+            var_dump($matches_pass);
             $hashed_password = $matches_pass["user_password"];
         }
         
