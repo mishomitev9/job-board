@@ -41,14 +41,17 @@ include_once('functions.php');
                     <ul class="jobs-listing">
 
 <?php
-$sql_jobs = "SELECT jobs.id, jobs.title, jobs.salary, jobs.location, jobs.date_posted, jobs.description, users.phone, users.company_name, users.company_site FROM jobs 
+$sql_jobs = "SELECT jobs.id, jobs.title, jobs.salary, jobs.location, jobs.date_posted, jobs.description, users.phone, users.company_name, users.company_site, users.company_image FROM jobs 
 LEFT JOIN users ON jobs.user_id = users.id ORDER BY date_posted";
 $jobs_result = mysqli_query($db_connect, $sql_jobs);
 if (mysqli_num_rows($jobs_result) > 0) {
-  // output data of each row
+    $img_dir = "./uploads/";
+
+    // output data of each row
     while ($row = mysqli_fetch_assoc($jobs_result)) {
         $posted_date = date($row["date_posted"]);
         $posted_date = date_create($posted_date);
+        $image = $img_dir.$row["company_image"];
         ?>
         <li class="job-card">
                             <div class="job-primary">
@@ -64,7 +67,7 @@ if (mysqli_num_rows($jobs_result) > 0) {
                             </div>
                             <div class="job-logo">
                                 <div class="job-logo-box">
-                                    <img src="https://i.imgur.com/ZbILm3F.png" alt="">
+                                    <img src="<?php echo $image; ?>" />
                                 </div>
                             </div>
                         </li> 
