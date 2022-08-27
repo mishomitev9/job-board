@@ -52,7 +52,7 @@ if (mysqli_num_rows($jobs_result) > 0) {
         $posted_date = date($row["date_posted"]);
         $posted_date = date_create($posted_date);
         $image = $img_dir.$row["company_image"];
-        var_dump($row["id"]);
+        
         ?>
         <li class="job-card">
                             <div class="job-primary">
