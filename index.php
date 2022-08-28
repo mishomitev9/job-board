@@ -1,21 +1,27 @@
-<?php include_once('header.php'); // Include Header once
+<?php
+include_once('header.php'); // Include Header once
 include_once('functions.php');
-
 ?>
+
         <main class="site-main">
             <section class="section-fullwidth section-jobs-preview">
                 <div class="row">  
-                    <?php require_once('success.php'); ?>
-                        <ul class="tags-list">
-                        <li class="list-item">
-                            <a href="#" class="list-item-link">Commerce</a>
-                        </li>
-                        <li class="list-item">
-                            <a href="#" class="list-item-link">Architecture</a>
-                        </li>
-                        <li class="list-item">
-                            <a href="#" class="list-item-link">Marketing</a>
-                        </li>
+                <ul class="tags-list">
+                    <?php require_once('success.php');
+                            $request_category = $db_connect->query(
+                                "SELECT category_name, id 
+                            FROM category 
+                            ORDER BY category_name ASC"
+                            );
+                            while ($row = mysqli_fetch_array($request_category, MYSQLI_BOTH)) {
+                                ?>
+                            <li class="list-item">
+                                <a href="<?php echo ($row['id']); ?>"  class="list-item-link"><?php echo $row['category_name'];?></a>
+                            </li>
+    
+                                <?php
+                            }
+                            ?>
                     </ul>
                     <div class="flex-container centered-vertically">
                         <div class="search-form-wrapper">
@@ -33,8 +39,8 @@ include_once('functions.php');
                         </div>
                     </div>
                     <ul class="jobs-listing">
-
 <?php
+
 $sql_jobs = "SELECT jobs.id, jobs.title, jobs.salary, jobs.location, jobs.date_posted, jobs.description, users.phone, users.company_name, users.company_site, users.company_image FROM jobs 
 LEFT JOIN users ON jobs.user_id = users.id ORDER BY date_posted";
 $jobs_result = mysqli_query($db_connect, $sql_jobs);
