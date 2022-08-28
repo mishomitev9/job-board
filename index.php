@@ -8,12 +8,6 @@ include_once('functions.php');
                     <?php require_once('success.php'); ?>
                         <ul class="tags-list">
                         <li class="list-item">
-                            <a href="#" class="list-item-link">IT</a>
-                        </li>
-                        <li class="list-item">
-                            <a href="#" class="list-item-link">Manufactoring</a>
-                        </li>
-                        <li class="list-item">
                             <a href="#" class="list-item-link">Commerce</a>
                         </li>
                         <li class="list-item">

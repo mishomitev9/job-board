@@ -116,11 +116,6 @@ if (isset($_POST['reg_user'])) {
     } elseif ((isset($company_name) || isset($company_description) || isset($logo_name)) && !((isset($company_name) && isset($company_description) && isset($logo_name)))) {
         $errors[] = "Please fill all company fields!";
     }
-
-    // Check for filled company name
-    // if (isset($company_description)) {
-    //     $errors[] = "You need to fill Company name first and than you can add company description";
-    // }
     
     // Resgister user without errors
     if (count($errors) == 0) {
