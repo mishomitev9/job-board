@@ -2,7 +2,6 @@
 include_once('header.php'); // Include Header once
 include_once('functions.php');
 ?>
-
         <main class="site-main">
             <section class="section-fullwidth section-jobs-preview">
                 <div class="row">  
@@ -10,15 +9,14 @@ include_once('functions.php');
                     <?php require_once('success.php');
                             $request_category = $db_connect->query(
                                 "SELECT category_name, id 
-                            FROM category 
-                            ORDER BY category_name ASC"
+                                FROM category 
+                                ORDER BY category_name ASC"
                             );
                             while ($row = mysqli_fetch_array($request_category, MYSQLI_BOTH)) {
                                 ?>
                             <li class="list-item">
-                                <a href="<?php echo ($row['id']); ?>"  class="list-item-link"><?php echo $row['category_name'];?></a>
+                                <a href="<?php //echo ($row['id']); ?>" class="list-item-link"><?php echo $row['category_name'];?></a>
                             </li>
-    
                                 <?php
                             }
                             ?>
@@ -52,7 +50,6 @@ if (mysqli_num_rows($jobs_result) > 0) {
         $posted_date = date($row["date_posted"]);
         $posted_date = date_create($posted_date);
         $image = $img_dir.$row["company_image"];
-        
         ?>
         <li class="job-card">
                             <div class="job-primary">
