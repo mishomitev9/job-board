@@ -4,6 +4,8 @@ include_once('functions.php');
 $jobs_url_id = $_GET['job_id'];
 
 if ($jobs_url_id != null) {
+    $_SESSION['$jobs_id'] = $jobs_url_id;
+
     $img_dir = "./uploads/";
     $stmt = $db_connect->
     prepare("SELECT *
@@ -51,7 +53,7 @@ if ($jobs_url_id != null) {
                                 <img src="<?php echo $image; ?>" />
                                 </div>
                             </div>
-                            <a href="apply-submission.php?company_id=<?php echo $row["id"]; ?>" class="button button-wide">Apply now</a>
+                            <a href="apply-submission.php?user_id=<?php echo $row["id"]; ?>" class="button button-wide">Apply now</a>
                             <a href="<?php echo $row["company_site"]; ?>">
                             <?php echo $row["company_site"]; ?>
                         </a>
