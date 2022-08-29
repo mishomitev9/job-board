@@ -1,4 +1,11 @@
-<?php include_once('header.php'); // Include Header once ?>
+<?php include_once('header.php'); // Include Header once
+
+    $query_submissions =
+    "SELECT first_name, last_name
+    FROM submissions";
+    $results_profile = mysqli_query($db_connect, $query_submissions);
+
+?>
 
         <main class="site-main">
             <section class="section-fullwidth">
@@ -15,9 +22,15 @@
                         <h2 class="heading-title">Job Title - Submissions - 6 Applicants</h2>
                     </div>
                     <ul class="jobs-listing">
-                        <li class="job-card">
-                            <div class="job-primary">
-                                <h2 class="job-title">Applicant Name</h2>
+                        <?php
+                        while ($matches_profile = $results_profile->fetch_assoc()) {
+                            $full_name = $matches_profile['first_name']." ".$matches_profile['last_name'];
+                            ?>
+                    <li class="job-card">
+                        <div class="job-primary">
+                                <h2 class="job-title">
+                            <?php echo $full_name; ?>
+                                </h2>
                             </div>
                             <div class="job-secondary centered-content">
                                 <div class="job-actions">
@@ -25,46 +38,7 @@
                                 </div>
                             </div>
                         </li>
-                        <li class="job-card">
-                            <div class="job-primary">
-                                <h2 class="job-title">Applicant Name</h2>
-                            </div>
-                            <div class="job-secondary centered-content">
-                                <div class="job-actions">
-                                    <a href="#" class="button button-inline">View</a>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="job-card">
-                            <div class="job-primary">
-                                <h2 class="job-title">Applicant Name</h2>
-                            </div>
-                            <div class="job-secondary centered-content">
-                                <div class="job-actions">
-                                    <a href="#" class="button button-inline">View</a>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="job-card">
-                            <div class="job-primary">
-                                <h2 class="job-title">Applicant Name</h2>
-                            </div>
-                            <div class="job-secondary centered-content">
-                                <div class="job-actions">
-                                    <a href="#" class="button button-inline">View</a>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="job-card">
-                            <div class="job-primary">
-                                <h2 class="job-title">Applicant Name</h2>
-                            </div>
-                            <div class="job-secondary centered-content">
-                                <div class="job-actions">
-                                    <a href="#" class="button button-inline">View</a>
-                                </div>
-                            </div>
-                        </li>
+                        <?php } ?>
                     </ul>                   
                     <div class="jobs-pagination-wrapper">
                         <div class="nav-links"> 
