@@ -1,5 +1,4 @@
  <?php include_once('header.php'); // Include Header once
- require_once('db-connect.php');
 
  $jobs_id = $_SESSION['$jobs_id'];
 
