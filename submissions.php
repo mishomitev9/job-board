@@ -1,12 +1,20 @@
 <?php include_once('header.php'); // Include Header once
-
+    $job_id = $_GET['job_id'];
+    
     $query_submissions =
-    "SELECT first_name, last_name
-    FROM submissions";
+    "SELECT jobs_id, first_name, last_name
+    FROM submissions
+    WHERE jobs_id='{$_GET['job_id']}'";
     $results_profile = mysqli_query($db_connect, $query_submissions);
-if (mysqli_num_rows($results_profile) > 0) {
     $appliciants_num = mysqli_num_rows($results_profile);
-}
+
+    $query_jobs =
+    "SELECT id, title
+    FROM jobs
+    WHERE id='{$_GET['job_id']}'";
+    $job_results = mysqli_query($db_connect, $query_jobs);
+    $job_num = mysqli_num_rows($job_results);
+    $job_match = $job_results->fetch_assoc();
 ?>
         <main class="site-main">
             <section class="section-fullwidth">
@@ -20,7 +28,7 @@ if (mysqli_num_rows($results_profile) > 0) {
                         </li>
                     </ul>
                     <div class="section-heading">
-                        <h2 class="heading-title">Job Title - Submissions - 
+                        <h2 class="heading-title"><?php echo $job_match['title']; ?> - Submissions - 
                             <?php echo ($appliciants_num > 0) ? $appliciants_num : 0; ?> Appliciants</h2>
                     </div>
                     <ul class="jobs-listing">
