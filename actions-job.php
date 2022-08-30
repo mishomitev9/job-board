@@ -1,6 +1,17 @@
  <?php
  include_once('header.php'); // Include Header once
 
+ // Make sure user is logged in
+ if (!$_SESSION['logged_in']) {
+     header('Location: '."login.php");
+ }
+
+ $job_title = "";
+ $job_location = "";
+ $job_salary = "";
+ $job_description = "";
+ $action = "Create";
+
  if (isset($_POST['new_job'])) {
      $today_date = date("Y/m/d"); // Get today date
 
@@ -44,6 +55,24 @@
              }
          }
      }
+ } elseif (isset($_GET['job_id'])) {
+     $action = "Edit";
+
+     $job_id = $_GET['job_id'];
+
+     echo "Job id {$job_id}";
+     $query_jobs =
+     "SELECT id, title, salary, description, location
+     FROM jobs
+     WHERE id='{$job_id}'";
+     $job_results = mysqli_query($db_connect, $query_jobs);
+     $job_num = mysqli_num_rows($job_results);
+     $job_match = $job_results->fetch_assoc();
+
+     $job_title = $job_match['title'];
+     $job_location = $job_match['location'];
+     $job_salary = $job_match['salary'];
+     $job_description = $job_match['description'];
  }
 
     ?>
@@ -58,19 +87,19 @@
                             <form method="post" action="" enctype="multipart/form-data">
                                 <div class="flex-container flex-wrap">
                                     <div class="form-field-wrapper width-large">
-                                        <input type="text" name="title" placeholder="Job title*" required/>
+                                        <input type="text" name="title" value="<?php echo $job_title ?>" placeholder="Job title*" required/>
                                     </div>
                                     <div class="form-field-wrapper width-large">
-                                        <input type="text" name="location" placeholder="Location"/>
+                                        <input type="text" name="location" value="<?php echo $job_location ?>" placeholder="Location"/>
                                     </div>
                                     <div class="form-field-wrapper width-large">
-                                        <input type="number" name="salary" placeholder="Salary"/>
+                                        <input type="number" name="salary" value="<?php echo $job_salary ?>" placeholder="Salary"/>
                                     </div>
                                     <div class="form-field-wrapper width-large">
-                                        <textarea name="description" placeholder="Description*" required></textarea>
+                                        <textarea name="description" placeholder="Description*" required><?php echo $job_description ?></textarea>
                                     </div>  
                                 <button type="submit" name="new_job" class="button">
-                                    Create
+                                    <?php echo $action ?>
                                 </button>
                             </form>
                             <?php require_once('errors.php'); // Include the errors ?>

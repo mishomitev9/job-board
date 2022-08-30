@@ -1,4 +1,8 @@
 <?php include_once('header.php'); // Include Header once
+if (!isset($_GET['job_id'])) {
+    header('Location: '."index.php");
+}
+
     $job_id = $_GET['job_id'];
     
     $query_submissions =

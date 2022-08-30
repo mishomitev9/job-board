@@ -94,7 +94,7 @@
                     company_name =        '$company_name',
                     company_site =        '$company_site',
                     company_description = '$company_description',
-                    company_image =        '$company_image' 
+                    company_image =       '$company_image' 
                     WHERE id='{$_SESSION['$user_id']}'";
          } else {
              $query = "UPDATE users SET 
