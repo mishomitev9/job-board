@@ -39,19 +39,22 @@ include_once('functions.php');
                     <ul class="jobs-listing">
 
                     <?php
-                     $sql_jobs = "SELECT jobs.id, jobs.title, jobs.salary, jobs.location, jobs.date_posted, jobs.description,
+                     $sql_jobs = "SELECT jobs.id, jobs.title, jobs.salary, jobs.location, jobs.date_posted, jobs.is_approved, jobs.description,
                      users.phone, users.company_name, users.company_site
                      FROM jobs 
                      LEFT JOIN users ON jobs.user_id = users.id
                      ORDER BY date_posted";
                     $jobs_result = mysqli_query($db_connect, $sql_jobs);
                     if (mysqli_num_rows($jobs_result) > 0) {
-                    // output data of each row
+                        // output data for each row
                         while ($row = mysqli_fetch_assoc($jobs_result)) {
+                            echo "Job id = ";
+                            var_dump($row["id"]);
+                            echo "Is approved status: ";
+                            var_dump($row["is_approved"]);
                             $posted_date = date($row["date_posted"]);
                             $posted_date = date_create($posted_date);
                             ?>
-
                         <li class="job-card">
                             <div class="job-primary">
                             <h2 class="job-title"><a href="single.php?job_id=<?php echo $row["id"]; ?>" ><?php echo $row["title"]; ?></a></h2>
@@ -66,8 +69,25 @@ include_once('functions.php');
                             </div>
                             <div class="job-secondary">
                                 <div class="job-actions">
-                                    <a href="#">Approve</a>
-                                    <a href="#">Reject</a>
+                                    <form method="post" action="" enctype="multipart/form-data">
+                                    <button type= "text" name="approve" <?php
+                                    if (isset($_POST['approve'])) {
+                                        $query_approve = "UPDATE jobs 
+                                        SET is_approved = '1'
+                                        WHERE id='{$row["id"]}'";
+                                        $approve_results = mysqli_query($db_connect, $query_approve);
+                                    }
+                                    ?> >Approve</button>
+
+                                    <button type= "text" name="reject" <?php if (isset($_POST['reject'])) {
+                                        $query_approve = "UPDATE jobs 
+                                        SET is_approved = '0'
+                                        WHERE id='{$row["id"]}'";
+                                        $approve_results = mysqli_query($db_connect, $query_approve);
+                                                                       }
+                                                                        ?> >Reject</button>
+
+                                    </form>
                                 </div>
                                 <div class="job-edit">
                                     <a href="submissions.php?job_id=<?php echo $row["id"]; ?>">View Submissions</a>
