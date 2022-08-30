@@ -4,9 +4,10 @@
     "SELECT first_name, last_name
     FROM submissions";
     $results_profile = mysqli_query($db_connect, $query_submissions);
-
+if (mysqli_num_rows($results_profile) > 0) {
+    $appliciants_num = mysqli_num_rows($results_profile);
+}
 ?>
-
         <main class="site-main">
             <section class="section-fullwidth">
                 <div class="row">                       
@@ -19,17 +20,20 @@
                         </li>
                     </ul>
                     <div class="section-heading">
-                        <h2 class="heading-title">Job Title - Submissions - 6 Applicants</h2>
+                        <h2 class="heading-title">Job Title - Submissions - 
+                            <?php echo ($appliciants_num > 0) ? $appliciants_num : 0; ?> Appliciants</h2>
                     </div>
                     <ul class="jobs-listing">
                         <?php
-                        while ($matches_profile = $results_profile->fetch_assoc()) {
-                            $full_name = $matches_profile['first_name']." ".$matches_profile['last_name'];
-                            ?>
+                        if ($appliciants_num > 0) {
+                            while ($matches_profile = $results_profile->fetch_assoc()) {
+                                $full_name = $matches_profile['first_name']." ".$matches_profile['last_name'];
+                                ?>
                     <li class="job-card">
                         <div class="job-primary">
                                 <h2 class="job-title">
-                            <?php echo $full_name; ?>
+                                <?php echo $full_name;
+                                ?>
                                 </h2>
                             </div>
                             <div class="job-secondary centered-content">
@@ -38,7 +42,8 @@
                                 </div>
                             </div>
                         </li>
-                        <?php } ?>
+                            <?php }
+                        } ?>
                     </ul>                   
                     <div class="jobs-pagination-wrapper">
                         <div class="nav-links"> 
