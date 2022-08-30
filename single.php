@@ -53,7 +53,7 @@ if ($jobs_url_id != null) {
                                 <img src="<?php echo $image; ?>" />
                                 </div>
                             </div>
-                            <a href="apply-submission.php?user_id=<?php echo $row["id"]; ?>" class="button button-wide">Apply now</a>
+                            <a href="apply-submission.php?job_id=<?php echo $_GET['job_id'] ?>" class="button button-wide">Apply now</a>
                             <a href="<?php echo $row["company_site"]; ?>">
                             <?php echo $row["company_site"]; ?>
                         </a>

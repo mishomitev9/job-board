@@ -54,7 +54,7 @@ include_once('functions.php');
 
                         <li class="job-card">
                             <div class="job-primary">
-                                <h2 class="job-title"><a href="#"><?php echo $row["title"]; ?></a></h2>
+                            <h2 class="job-title"><a href="single.php?job_id=<?php echo $row["id"]; ?>" ><?php echo $row["title"]; ?></a></h2>
                                 <div class="job-meta">
                                     <a class="meta-company" href="<?php echo $row["company_site"]; ?>"><?php echo $row["company_name"]; ?></a>
                                     <span class="meta-date">Posted <?php echo time_message($posted_date); ?></span>
@@ -70,7 +70,7 @@ include_once('functions.php');
                                     <a href="#">Reject</a>
                                 </div>
                                 <div class="job-edit">
-                                    <a href="#">View Submissions</a>
+                                    <a href="submissions.php?job_id=<?php echo $row["id"]; ?>">View Submissions</a>
                                     <a href="#">Edit</a>
                                 </div>
                             </div>
