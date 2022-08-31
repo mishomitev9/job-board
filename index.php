@@ -40,7 +40,9 @@ include_once('functions.php');
 <?php
 
 $sql_jobs = "SELECT jobs.id, jobs.title, jobs.salary, jobs.location, jobs.date_posted, jobs.description, users.phone, users.company_name, users.company_site, users.company_image FROM jobs 
-LEFT JOIN users ON jobs.user_id = users.id ORDER BY date_posted";
+LEFT JOIN users ON jobs.user_id = users.id
+WHERE jobs.is_approved = '1'
+ORDER BY date_posted";
 $jobs_result = mysqli_query($db_connect, $sql_jobs);
 if (mysqli_num_rows($jobs_result) > 0) {
     $img_dir = "./uploads/";

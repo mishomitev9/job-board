@@ -1,7 +1,8 @@
 <?php require_once('db-connect.php');
 $_SESSION['logged_in'] = false;
-
 if (!empty($_SESSION['$user_id'])) {
+    // var_dump($_SESSION['$user_id']);
+
     $_SESSION['logged_in'] = true;
     $_SESSION['is_company'] = false;
 
@@ -11,8 +12,8 @@ if (!empty($_SESSION['$user_id'])) {
     $stmt->execute();
     $result = $stmt->get_result(); // get the mysqli result
     if ($result != false) {
-        $company_name_fetched = $result->fetch_assoc(); // fetch data
-        if ($company_name_fetched['company_name'] != "") {
+        $user_data_fetched = $result->fetch_assoc(); // fetch data
+        if ($user_data_fetched['company_name'] != "") {
             $_SESSION['is_company'] = true;
         }
     }

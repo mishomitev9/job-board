@@ -44,7 +44,7 @@ if (isset($_POST['login_user'])) {
        // Select data for My Profile input values
             $query_profile = "SELECT first_name, last_name, email,
                      phone, company_name, company_site, company_description,
-                     company_image, user_password, is_company
+                     company_image, user_password, is_company, is_admin
                      FROM users WHERE id =?";
 
             $stmt2 = $db_connect->prepare($query_profile);
@@ -64,6 +64,8 @@ if (isset($_POST['login_user'])) {
                 $_SESSION['company_image']       = $result_profile["company_image"];
                 $_SESSION['user_password']       = $result_profile["user_password"];
                 $_SESSION['is_company']          = $result_profile["is_company"];
+                $_SESSION['is_admin']            = $result_profile["is_admin"];
+
                         
                 header('location: index.php');
             }

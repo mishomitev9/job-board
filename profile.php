@@ -52,8 +52,9 @@
              $errors[] = "Company site URL is not valid";
          }
      }
-     if (isset($_FILES['upload_logo']) && isset($company_name) && isset($company_description)) {
-         // Image validation
+
+     if (isset($company_name) && isset($company_description)) {
+        // Image validation
          $company_image = '';
          $logo_name     = $_FILES['upload_logo']['name'];
          $logo_tmp_name = $_FILES['upload_logo']['tmp_name'];
@@ -84,6 +85,8 @@
          $password_encryption = password_hash($password, PASSWORD_DEFAULT); // Encryption the password with password_hash
         
          if ($is_company) {
+             $additional_field = ($logo_error === 4)?"":",company_image =       '{$company_image}'";
+
              $query = "UPDATE users SET 
                     first_name =          '$first_name',
                     last_name =           '$last_name',
@@ -93,8 +96,8 @@
                     is_admin =            '$is_admin',
                     company_name =        '$company_name',
                     company_site =        '$company_site',
-                    company_description = '$company_description',
-                    company_image =        '$company_image' 
+                    company_description = '$company_description'
+                    {$additional_field}
                     WHERE id='{$_SESSION['$user_id']}'";
          } else {
              $query = "UPDATE users SET 
@@ -177,6 +180,9 @@
                                             <textarea name="company_description" placeholder="Description"><?php echo $_SESSION['company_description']; ?></textarea>
                                         </div>
                                         <div class="form-field-wrapper width-large">
+                                            <?php if (!empty($_SESSION['company_name'])) { ?>
+                                                <img src="<?php echo LOGO_URL.$_SESSION['company_image']; ?>" height="100px" width="100px" />
+                                            <?php } ?>
                                                     <label class = "label-upload-logo" > Upload new company logo:</label>
                                                 <input type="file" name="upload_logo"/>
                                             </div>                 
