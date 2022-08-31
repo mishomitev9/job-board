@@ -19,6 +19,7 @@ if (isset($_POST['reg_user'])) {
     $_SESSION['company_name'] = $_POST['company_name'];
     $_SESSION['company_site'] = $_POST['company_site'];
     $_SESSION['company_description'] = $_POST['company_description'];
+    $_SESSION['user_password'] = $password;
     
     $errors = array();
     $is_company = isset($company_name) ? 1 : 0;

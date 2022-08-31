@@ -21,14 +21,16 @@ if (isset($_POST['login_user'])) {
 
         if ($result_password != false) {
             $matches_pass = $result_password->fetch_assoc(); // fetch data
-            $hashed_password = $matches_pass["user_password"];
+            if (($matches_pass) > 0) {
+                $hashed_password = $matches_pass["user_password"];
+            }
         }
-        
         if (password_verify($_POST['user_password'], $hashed_password)) {
             header('location: index.php');
         } else {
             $errors[] = "Wrong username or password. Please try again.";
         }
+        
             // SQL with parameters
             $query_id = "SELECT id FROM users WHERE email =?";
             $stmt1 = $db_connect->prepare($query_id);
@@ -38,8 +40,10 @@ if (isset($_POST['login_user'])) {
             
         if ($result != false) {
             $matches_id = $result->fetch_assoc(); // fetch data
-            $user_id = $matches_id['id'];
-            $_SESSION['$user_id'] = $user_id;
+            if (($matches_id) > 0) {
+                $user_id = $matches_id['id'];
+                $_SESSION['$user_id'] = $user_id;
+            }
 
        // Select data for My Profile input values
             $query_profile = "SELECT first_name, last_name, email,
