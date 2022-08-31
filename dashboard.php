@@ -80,7 +80,12 @@ if ($_SESSION['is_admin'] & isset($_POST['action']) & isset($_POST['id'])) { //t
                     ?>
                     <li class="job-card">
                         <div class="job-primary">
-                        <h2 class="job-title"><a href="single.php?job_id=<?php echo $row["id"]; ?>" ><?php echo $row["title"]; ?></a></h2>
+                        <h2 class="job-title"><a href="single.php?job_id=<?php echo $row["id"]; ?>" ><?php echo $row["title"];
+                        if ($_SESSION['is_admin']) {
+                            echo ($row['is_approved']) ? " + " : " - ";
+                        } else {
+                            echo ($row['is_approved']) ? " - approved " : " - pending ";
+                        }?></a></h2>
                             <div class="job-meta">
                                 <a class="meta-company" href="<?php echo $row["company_site"]; ?>"><?php echo $row["company_name"]; ?></a>
                                 <span class="meta-date">Posted <?php echo time_message($posted_date); ?></span>
