@@ -60,7 +60,6 @@
 
      $job_id = $_GET['job_id'];
 
-     echo "Job id {$job_id}";
      $query_jobs =
      "SELECT id, title, salary, description, location
      FROM jobs
@@ -82,24 +81,24 @@
                     <div class="flex-container centered-vertically centered-horizontally">
                         <div class="form-box box-shadow">
                             <div class="section-heading">
-                                <h2 class="heading-title">New job</h2>
+                                <h3 class="heading-title"><?php echo (isset($_GET['job_id'])) ? "$action "."$job_title" : "New job";?></h3>
                             </div>
                             <form method="post" action="" enctype="multipart/form-data">
                                 <div class="flex-container flex-wrap">
                                     <div class="form-field-wrapper width-large">
-                                        <input type="text" name="title" value="<?php echo $job_title ?>" placeholder="Job title*" required/>
+                                        <input type="text" name="title" value="<?php echo $job_title; ?>" placeholder="Job title*" required/>
                                     </div>
                                     <div class="form-field-wrapper width-large">
-                                        <input type="text" name="location" value="<?php echo $job_location ?>" placeholder="Location"/>
+                                        <input type="text" name="location" value="<?php echo $job_location; ?>" placeholder="Location"/>
                                     </div>
                                     <div class="form-field-wrapper width-large">
-                                        <input type="number" name="salary" value="<?php echo $job_salary ?>" placeholder="Salary"/>
+                                        <input type="number" name="salary" value="<?php echo $job_salary; ?>" placeholder="Salary"/>
                                     </div>
                                     <div class="form-field-wrapper width-large">
-                                        <textarea name="description" placeholder="Description*" required><?php echo $job_description ?></textarea>
+                                        <textarea name="description" placeholder="Description*" required><?php echo $job_description; ?></textarea>
                                     </div>  
                                 <button type="submit" name="new_job" class="button">
-                                    <?php echo $action ?>
+                                    <?php echo $action; ?>
                                 </button>
                             </form>
                             <?php require_once('errors.php'); // Include the errors ?>
