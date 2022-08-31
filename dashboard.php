@@ -103,7 +103,7 @@ if ($_SESSION['is_admin'] & isset($_POST['action']) & isset($_POST['id'])) { //t
                         <?php } ?>
                             <div class="job-edit">
                                 <a href="submissions.php?job_id=<?php echo $row["id"]; ?>">View Submissions</a>
-                                <a href="#">Edit</a>
+                                <a href="#" >Edit</a>
                             </div>
                         </div>
                     </li>

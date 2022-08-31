@@ -6,11 +6,11 @@ if (!isset($_GET['job_id'])) {
     $job_id = $_GET['job_id'];
     
     $query_submissions =
-    "SELECT jobs_id, first_name, last_name
+    "SELECT id, jobs_id, first_name, last_name
     FROM submissions
     WHERE jobs_id='{$_GET['job_id']}'";
-    $results_profile = mysqli_query($db_connect, $query_submissions);
-    $appliciants_num = mysqli_num_rows($results_profile);
+    $submissions_results = mysqli_query($db_connect, $query_submissions);
+    $appliciants_num = mysqli_num_rows($submissions_results);
 
     $query_jobs =
     "SELECT id, title
@@ -38,8 +38,9 @@ if (!isset($_GET['job_id'])) {
                     <ul class="jobs-listing">
                         <?php
                         if ($appliciants_num > 0) {
-                            while ($matches_profile = $results_profile->fetch_assoc()) {
-                                $full_name = $matches_profile['first_name']." ".$matches_profile['last_name'];
+                            while ($matches_submissions = $submissions_results->fetch_assoc()) {
+                                $_SESSION['submission_id']=$matches_submissions['id'];
+                                $full_name = $matches_submissions['first_name']." ".$matches_submissions['last_name'];
                                 ?>
                     <li class="job-card">
                         <div class="job-primary">
@@ -50,7 +51,7 @@ if (!isset($_GET['job_id'])) {
                             </div>
                             <div class="job-secondary centered-content">
                                 <div class="job-actions">
-                                    <a href="#" class="button button-inline">View</a>
+                                    <a href="view-submission.php?job_id=<?php echo $job_match['id']; ?>" class="button button-inline">View</a>
                                 </div>
                             </div>
                         </li>
