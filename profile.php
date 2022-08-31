@@ -180,7 +180,9 @@
                                             <textarea name="company_description" placeholder="Description"><?php echo $_SESSION['company_description']; ?></textarea>
                                         </div>
                                         <div class="form-field-wrapper width-large">
-                                            <img src="http://localhost/job-board/uploads/<?php echo $_SESSION['company_image']; ?>" height="100px" width="100px" />
+                                            <?php if (!empty($_SESSION['company_name'])) { ?>
+                                                <img src="<?php echo LOGO_URL.$_SESSION['company_image']; ?>" height="100px" width="100px" />
+                                            <?php } ?>
                                                     <label class = "label-upload-logo" > Upload new company logo:</label>
                                                 <input type="file" name="upload_logo"/>
                                             </div>                 
